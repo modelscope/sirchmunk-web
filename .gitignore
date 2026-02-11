@@ -69,3 +69,5 @@ Desktop.ini
 npm-debug.log*
 
 .idea
+
+.pnpm-store
