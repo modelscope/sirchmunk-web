@@ -1,4 +1,4 @@
-module github.com/wangxingjun778/sirchmunk-blog
+module github.com/modelscope/sirchmunk-web
 
 go 1.23
 

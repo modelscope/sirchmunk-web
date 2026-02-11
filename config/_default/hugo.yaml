@@ -5,7 +5,7 @@
 
 # Website name (set in params.yaml under hugoblox.branding.name)
 title: 'Sirchmunk'
-baseURL: 'https://wangxingjun778.github.io/sirchmunk-blog/' # Website URL
+baseURL: 'https://modelscope.github.io/sirchmunk-web/' # Website URL
 
 ############################
 ## PAGE OPTIONS
