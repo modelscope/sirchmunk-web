@@ -1,0 +1,14 @@
+name = "Sirchmunk Blog"
+license = "Apache-2.0"
+licenselink = "https://github.com/modelscope/sirchmunk/blob/main/LICENSE"
+description = "Technical blog and documentation for Sirchmunk — an open-source, embedding-free, agentic search engine."
+
+homepage = "https://github.com/wangxingjun778/sirchmunk-blog"
+demosite = "https://wangxingjun778.github.io/sirchmunk-blog/"
+
+tags = ["ai", "search", "documentation", "blog", "technical", "rag", "mcp", "tailwind"]
+features = ["secure", "fast", "search", "dark mode"]
+
+[author]
+  name = "ModelScope Team"
+  homepage = "https://github.com/modelscope"

@@ -1,0 +1,33 @@
+# 中文导航链接
+
+main:
+  - name: 首页
+    url: /
+    weight: 10
+  - name: 文档
+    url: docs/
+    weight: 20
+  - name: 博客
+    url: blog/
+    weight: 30
+  - name: 案例展示
+    url: showcase/
+    weight: 40
+  - name: 社区
+    url: community/
+    weight: 50
+
+sidebar:
+  - identifier: more
+    name: 需要帮助？
+    params:
+      type: separator
+    weight: 1
+  - identifier: community
+    name: "社区"
+    pageRef: "/community"
+    weight: 2
+  - identifier: github
+    name: "GitHub ↗"
+    url: "https://github.com/modelscope/sirchmunk"
+    weight: 3

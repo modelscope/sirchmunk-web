@@ -1,0 +1,47 @@
+/* Sirchmunk Custom Styles */
+
+/* Hero title: smaller font */
+.hero-block-container h1 {
+  font-size: 1.875rem !important;
+  line-height: 2.25rem !important;
+}
+
+@media (min-width: 640px) {
+  .hero-block-container h1 {
+    font-size: 2.25rem !important;
+    line-height: 2.5rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-block-container h1 {
+    font-size: 3rem !important;
+    line-height: 1.2 !important;
+  }
+}
+
+/* Hero: logo stacked above title text */
+.hero-title-with-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.hero-logo {
+  height: 6rem;   /* 96px — mobile */
+  width: auto;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .hero-logo {
+    height: 8rem;  /* 128px — tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-logo {
+    height: 10rem; /* 160px — desktop */
+  }
+}
