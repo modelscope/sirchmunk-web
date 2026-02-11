@@ -67,3 +67,5 @@ Desktop.ini
 
 *.log
 npm-debug.log*
+
+.idea

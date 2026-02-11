@@ -16,8 +16,8 @@ Sirchmunk is an open-source, embedding-free, agentic search engine that transfor
 ## Links
 
 - **Source Code**: [github.com/modelscope/sirchmunk](https://github.com/modelscope/sirchmunk)
-- **Documentation**: [wangxingjun778.github.io/sirchmunk-blog/docs/](https://wangxingjun778.github.io/sirchmunk-blog/docs/)
-- **Blog & Technical Report**: [wangxingjun778.github.io/sirchmunk-blog/blog/](https://wangxingjun778.github.io/sirchmunk-blog/blog/)
+- **Documentation**: [modelscope.github.io/sirchmunk-web/docs/](https://modelscope.github.io/sirchmunk-web/docs/)
+- **Blog & Technical Report**: [modelscope.github.io/sirchmunk-web/blog/](https://modelscope.github.io/sirchmunk-web/blog/)
 - **Releases**: [github.com/modelscope/sirchmunk/releases](https://github.com/modelscope/sirchmunk/releases)
 
 ## License
