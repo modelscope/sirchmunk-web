@@ -20,7 +20,7 @@ sections:
         text: 阅读技术报告
         url: blog/technical-deep-dive/
       announcement:
-        text: "Sirchmunk v0.0.3rc0 发布 — 智能搜索管线、统一 CLI 与 ReAct Agent！"
+        text: "Sirchmunk v0.0.3 发布 — 核心搜索算法与 MCP 集成双升级！"
         link:
           text: "查看所有版本"
           url: "https://github.com/modelscope/sirchmunk/releases"

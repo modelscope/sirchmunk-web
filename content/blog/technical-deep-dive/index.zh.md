@@ -332,7 +332,7 @@ Sirchmunk 代表了我们思考检索增强生成方式的范式转变。通过�
 
 ---
 
-*本技术报告通过分析 Sirchmunk 源代码（v0.0.3rc0）生成。*
+*本技术报告通过分析 Sirchmunk 源代码（v0.0.3）生成。*
 *[github.com/modelscope/sirchmunk](https://github.com/modelscope/sirchmunk) · [ModelScope](https://github.com/modelscope)*
 
 *Sirchmunk：从原始数据到自进化智能，实时。*
