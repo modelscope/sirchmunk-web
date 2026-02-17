@@ -1,7 +1,7 @@
 ---
 title: "From Index-Centric Retrieval to In-Context Reasoning: The Technical Evolution of RAG Systems"
 summary: "An in-depth analysis of the transition from traditional Graph-based RAG to next-generation In-Context Search (ICS) paradigms, comparing LightRAG, PageIndex, and Sirchmunk."
-date: Feb 17, 2026
+date: 2026-02-17
 authors:
   - me
 tags:
