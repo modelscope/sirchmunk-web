@@ -219,3 +219,15 @@ The next research frontier lies in the convergence of structural reasoning and a
 
 
 The era of treating RAG as a static database lookup is ending. By embracing **In-Context Search**, frameworks like PageIndex and Sirchmunk are turning the context window into a dynamic, evolving laboratory for intelligence.
+
+---
+
+## References
+
+1. Lewis, P., Perez, E., Piktus, A., et al. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.* NeurIPS 2020. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
+2. Guo, Z., Qian, C., et al. (2024). *LightRAG: Simple and Fast Retrieval-Augmented Generation.* [arXiv:2410.05779](https://arxiv.org/abs/2410.05779) | [GitHub](https://github.com/HKUDS/LightRAG)
+3. VectifyAI. (2025). *PageIndex: Extracting and Understanding Financial Reports with LLM.* [GitHub](https://github.com/VectifyAI/PageIndex)
+4. ModelScope. (2025). *Sirchmunk: An Embedding-Free, Agentic Search Engine for Raw Data.* [GitHub](https://github.com/modelscope/sirchmunk)
+5. Yao, S., Zhao, J., Yu, D., et al. (2023). *ReAct: Synergizing Reasoning and Acting in Language Models.* ICLR 2023. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
+6. Anthropic. (2024). *Model Context Protocol (MCP) Specification.* [Documentation](https://modelcontextprotocol.io)
+7. Kaddour, J., Harris, J., Mozes, M., et al. (2023). *Challenges and Applications of Large Language Models.* [arXiv:2307.10169](https://arxiv.org/abs/2307.10169)
