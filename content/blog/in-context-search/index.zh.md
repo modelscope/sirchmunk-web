@@ -1,7 +1,7 @@
 ---
 title: "从索引中心检索到上下文推理：RAG 系统的技术演进"
 summary: "深入分析传统 Graph-based RAG 向下一代上下文搜索（ICS）范式的演进，对比 LightRAG、PageIndex 与 Sirchmunk 的技术路线。"
-date: 2026-02-12
+date: 2026-02-17
 authors:
   - me
 tags:
@@ -16,7 +16,8 @@ image:
   caption: 'RAG 系统的技术演进'
 ---
 
-传统的检索增强生成（RAG）框架通过静态索引与向量相似度匹配，为大语言模型（LLM）构建了坚实的外部知识接入基础。然而，随着计算范式向 **LLM 原生** 架构演进，一种被称为 **上下文搜索（In-Context Search, ICS）** 的新前沿正在兴起。本文分析了从传统 Graph-based RAG 到下一代 ICS 范式的技术演进，以 **VectifyAI 的 PageIndex** 和 **ModelScope 的 Sirchmunk** 为代表。
+随着 RAG (Retrieval-Augmented Generation) 技术的演进，一种名为 **上下文搜索（In-Context Search, ICS）** 的新范式正在重新定义 LLM 与外部知识的交互方式。本文对比了传统 Graph-based RAG 与以 **PageIndex** 和 **Sirchmunk** 为代表的下一代 ICS 方案。
+
 
 <!--more-->
 

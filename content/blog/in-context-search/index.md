@@ -1,7 +1,7 @@
 ---
 title: "From Index-Centric Retrieval to In-Context Reasoning: The Technical Evolution of RAG Systems"
 summary: "An in-depth analysis of the transition from traditional Graph-based RAG to next-generation In-Context Search (ICS) paradigms, comparing LightRAG, PageIndex, and Sirchmunk."
-date: 2026-02-12
+date: Feb 17, 2026
 authors:
   - me
 tags:
@@ -16,7 +16,7 @@ image:
   caption: 'The Technical Evolution of RAG Systems'
 ---
 
-Traditional Retrieval-Augmented Generation (RAG) frameworks have established a robust foundation for grounding Large Language Models (LLMs) in external knowledge through static indexing and vector similarity. However, as computational paradigms shift toward **LLM-native** architectures, a new frontier known as **In-Context Search (ICS)** is emerging. This post analyzes the transition from traditional Graph-based RAG to next-generation ICS paradigms, represented by **VectifyAI's PageIndex** and **ModelScope's Sirchmunk**.
+With the evolution of RAG (Retrieval-Augmented Generation) technology, a new paradigm called **In-Context Search (ICS)** is redefining how LLMs interact with external knowledge. This post compares traditional Graph-based RAG with next-generation ICS approaches represented by **[PageIndex](https://github.com/VectifyAI/PageIndex)** and **[Sirchmunk](https://github.com/modelscope/sirchmunk)**.
 
 <!--more-->
 
@@ -28,7 +28,7 @@ Traditional Retrieval-Augmented Generation (RAG) frameworks have established a r
 
 ## 1. The Foundation and Frontiers of RAG
 
-The first generation of RAG successfully addressed LLM hallucinations by introducing external knowledge bases. These systems typically rely on **Vector Databases** or **Static Knowledge Graphs** (e.g., **LightRAG**).
+The first generation of RAG successfully addressed LLM hallucinations by introducing external knowledge bases. These systems typically rely on **Vector Databases** or **Static Knowledge Graphs** (e.g., **[LightRAG](https://github.com/HKUDS/LightRAG)**).
 
 ### The Capabilities and Constraints of Traditional RAG
 
