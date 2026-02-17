@@ -1,7 +1,7 @@
 ---
 title: "从索引中心检索到上下文推理：RAG 系统的技术演进"
 summary: "深入分析传统 Graph-based RAG 向下一代上下文搜索（ICS）范式的演进，对比 LightRAG、PageIndex 与 Sirchmunk 的技术路线。"
-date: 2026-02-12
+date: 2026-02-17
 authors:
   - me
 tags:
@@ -16,7 +16,8 @@ image:
   caption: 'RAG 系统的技术演进'
 ---
 
-传统的检索增强生成（RAG）框架通过静态索引与向量相似度匹配，为大语言模型（LLM）构建了坚实的外部知识接入基础。然而，随着计算范式向 **LLM 原生** 架构演进，一种被称为 **上下文搜索（In-Context Search, ICS）** 的新前沿正在兴起。本文分析了从传统 Graph-based RAG 到下一代 ICS 范式的技术演进，以 **VectifyAI 的 PageIndex** 和 **ModelScope 的 Sirchmunk** 为代表。
+随着 RAG (Retrieval-Augmented Generation) 技术的演进，一种名为 **上下文搜索（In-Context Search, ICS）** 的新范式正在重新定义 LLM 与外部知识的交互方式。本文对比了传统 Graph-based RAG 与以 **PageIndex** 和 **Sirchmunk** 为代表的下一代 ICS 方案。
+
 
 <!--more-->
 
@@ -168,7 +169,7 @@ ICS 实现路线的分化反映了 **自顶向下逻辑** 与 **自底向上发�
 ---
 
 
-## 5. 挑战与未来研究方向
+## 4. 挑战与未来研究方向
 
 这些框架之间的分化代表了应对 **"上下文瓶颈"** 的两种不同解决方案：
 
@@ -216,3 +217,15 @@ ICS 范式以预处理时间换取查询时的智能，这使得性能瓶颈发�
 * **硬件加速 ICS：** 与 NPU/GPU 加速文件系统的集成将缓解 I/O 瓶颈，即使在超大规模下也能实现"零索引"推理。
 
 将 RAG 视为静态数据库查找的时代正在终结。通过拥抱 **上下文搜索**，PageIndex 和 Sirchmunk 等框架正在将上下文窗口转变为一个动态、进化的智能实验场。
+
+---
+
+## 参考文献
+
+1. Lewis, P., Perez, E., Piktus, A., 等. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.* NeurIPS 2020. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
+2. Guo, Z., Qian, C., 等. (2024). *LightRAG: Simple and Fast Retrieval-Augmented Generation.* [arXiv:2410.05779](https://arxiv.org/abs/2410.05779) | [GitHub](https://github.com/HKUDS/LightRAG)
+3. VectifyAI. (2025). *PageIndex: Extracting and Understanding Financial Reports with LLM.* [GitHub](https://github.com/VectifyAI/PageIndex)
+4. ModelScope. (2025). *Sirchmunk：一个无嵌入的、智能体驱动的原始数据搜索引擎。* [GitHub](https://github.com/modelscope/sirchmunk)
+5. Yao, S., Zhao, J., Yu, D., 等. (2023). *ReAct: Synergizing Reasoning and Acting in Language Models.* ICLR 2023. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
+6. Anthropic. (2024). *模型上下文协议（MCP）规范。* [官方文档](https://modelcontextprotocol.io)
+7. Kaddour, J., Harris, J., Mozes, M., 等. (2023). *Challenges and Applications of Large Language Models.* [arXiv:2307.10169](https://arxiv.org/abs/2307.10169)

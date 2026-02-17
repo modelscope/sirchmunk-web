@@ -1,7 +1,7 @@
 ---
 title: "From Index-Centric Retrieval to In-Context Reasoning: The Technical Evolution of RAG Systems"
 summary: "An in-depth analysis of the transition from traditional Graph-based RAG to next-generation In-Context Search (ICS) paradigms, comparing LightRAG, PageIndex, and Sirchmunk."
-date: 2026-02-12
+date: Feb 17, 2026
 authors:
   - me
 tags:
@@ -16,7 +16,7 @@ image:
   caption: 'The Technical Evolution of RAG Systems'
 ---
 
-Traditional Retrieval-Augmented Generation (RAG) frameworks have established a robust foundation for grounding Large Language Models (LLMs) in external knowledge through static indexing and vector similarity. However, as computational paradigms shift toward **LLM-native** architectures, a new frontier known as **In-Context Search (ICS)** is emerging. This post analyzes the transition from traditional Graph-based RAG to next-generation ICS paradigms, represented by **VectifyAI's PageIndex** and **ModelScope's Sirchmunk**.
+With the evolution of RAG (Retrieval-Augmented Generation) technology, a new paradigm called **In-Context Search (ICS)** is redefining how LLMs interact with external knowledge. This post compares traditional Graph-based RAG with next-generation ICS approaches represented by **[PageIndex](https://github.com/VectifyAI/PageIndex)** and **[Sirchmunk](https://github.com/modelscope/sirchmunk)**.
 
 <!--more-->
 
@@ -28,7 +28,7 @@ Traditional Retrieval-Augmented Generation (RAG) frameworks have established a r
 
 ## 1. The Foundation and Frontiers of RAG
 
-The first generation of RAG successfully addressed LLM hallucinations by introducing external knowledge bases. These systems typically rely on **Vector Databases** or **Static Knowledge Graphs** (e.g., **LightRAG**).
+The first generation of RAG successfully addressed LLM hallucinations by introducing external knowledge bases. These systems typically rely on **Vector Databases** or **Static Knowledge Graphs** (e.g., **[LightRAG](https://github.com/HKUDS/LightRAG)**).
 
 ### The Capabilities and Constraints of Traditional RAG
 
@@ -219,3 +219,15 @@ The next research frontier lies in the convergence of structural reasoning and a
 
 
 The era of treating RAG as a static database lookup is ending. By embracing **In-Context Search**, frameworks like PageIndex and Sirchmunk are turning the context window into a dynamic, evolving laboratory for intelligence.
+
+---
+
+## References
+
+1. Lewis, P., Perez, E., Piktus, A., et al. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.* NeurIPS 2020. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
+2. Guo, Z., Qian, C., et al. (2024). *LightRAG: Simple and Fast Retrieval-Augmented Generation.* [arXiv:2410.05779](https://arxiv.org/abs/2410.05779) | [GitHub](https://github.com/HKUDS/LightRAG)
+3. VectifyAI. (2025). *PageIndex: Extracting and Understanding Financial Reports with LLM.* [GitHub](https://github.com/VectifyAI/PageIndex)
+4. ModelScope. (2025). *Sirchmunk: An Embedding-Free, Agentic Search Engine for Raw Data.* [GitHub](https://github.com/modelscope/sirchmunk)
+5. Yao, S., Zhao, J., Yu, D., et al. (2023). *ReAct: Synergizing Reasoning and Acting in Language Models.* ICLR 2023. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
+6. Anthropic. (2024). *Model Context Protocol (MCP) Specification.* [Documentation](https://modelcontextprotocol.io)
+7. Kaddour, J., Harris, J., Mozes, M., et al. (2023). *Challenges and Applications of Large Language Models.* [arXiv:2307.10169](https://arxiv.org/abs/2307.10169)
