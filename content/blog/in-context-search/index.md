@@ -47,7 +47,7 @@ The industry is now pivoting toward **In-Context Search (ICS)**. In this paradig
 | Dimension | **LightRAG** (Advanced Graph-RAG) | **PageIndex** (Reasoning-based ICS) | **Sirchmunk** (Indexless / Self-Evolving) |
 | --- | --- | --- |-------------------------------------------|
 | **Architectural Philosophy** | Index-Centric (Graph Topologies) | Reasoning-Centric (Hierarchical ICS) | Agile-Centric (Raw Search & Evolution)    |
-| **Primary Mechanism** | Dual-level Graph Traversal | Agentic Tree Navigation | Monte Carlo Sampling + LLM Reasoning      |
+| **Primary Mechanism** | Dual-level Graph Traversal | Agentic Tree Navigation | Greedy Cascade (FAST) / Monte Carlo Sampling (DEEP) |
 | **Retrieval Depth** | Global & Local via Graph Edges | Structural Pathfinding | Statistical Importance Extraction         |
 | **Indexing Overhead** | High (Graph Construction) | Moderate (Tree Metadata) | **Minimal to Zero**                       |
 | **Context Fidelity** | High (Entity-Relationship) | **Maximum** (Structural Integrity) | **Full Fidelity** (Raw Data Access)       |
@@ -100,6 +100,8 @@ PageIndex implements an **Agentic Loop** that mimics human research patterns—n
 ### 3.3 Sirchmunk: Statistical Agility and Self-Evolution
 
 Sirchmunk represents the **"Agile Hunter"** philosophy in the In-Context Search (ICS) landscape. It prioritizes **data freshness** and **operational speed**, completely bypassing the static tree-building phase. Instead, it treats the file system as a live, queryable environment, leveraging statistical mechanics and agentic reflection.
+
+Sirchmunk operates in two distinct search modes. **FAST mode** (default) employs a greedy strategy with 2-level keyword cascade and context-window sampling, achieving retrieval in 2–5 seconds with only 2 LLM calls — a **~10x speedup** over the comprehensive mode. **DEEP mode** activates the full Monte Carlo evidence sampling pipeline with multi-round ReAct refinement for maximum recall on complex queries (10–30 seconds).
 
 ---
 

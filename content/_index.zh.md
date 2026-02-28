@@ -20,7 +20,7 @@ sections:
         text: 阅读技术报告
         url: blog/technical-deep-dive/
       announcement:
-        text: "Sirchmunk v0.0.3 发布 — 核心搜索算法与 MCP 集成双升级！"
+        text: "Sirchmunk v0.0.4 发布 — Docker 部署支持、FAST 搜索模式与部署流程简化！"
         link:
           text: "查看所有版本"
           url: "https://github.com/modelscope/sirchmunk/releases"

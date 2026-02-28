@@ -52,11 +52,14 @@ sirchmunk serve --host 0.0.0.0 --port 8000
 直接从终端执行搜索查询。
 
 ```bash
-# 在当前目录中搜索
+# 在当前目录中搜索（默认 FAST 模式）
 sirchmunk search "How does authentication work?"
 
 # 在指定路径中搜索
 sirchmunk search "find all API endpoints" ./src ./docs
+
+# DEEP 模式：蒙特卡洛证据采样全面分析
+sirchmunk search "数据库架构" --mode DEEP
 
 # 快速文件名搜索（无需 LLM）
 sirchmunk search "config" --mode FILENAME_ONLY

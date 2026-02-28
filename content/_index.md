@@ -20,7 +20,7 @@ sections:
         text: Read the Technical Report
         url: blog/technical-deep-dive/
       announcement:
-        text: "Sirchmunk v0.0.3 Released — Enhanced MCP Integration & Core Search Algorithms"
+        text: "Sirchmunk v0.0.4 Released — Docker Support, FAST Search Mode & Simplified Deployment"
         link:
           text: "View all releases"
           url: "https://github.com/modelscope/sirchmunk/releases"

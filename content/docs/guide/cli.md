@@ -52,11 +52,14 @@ sirchmunk serve --host 0.0.0.0 --port 8000
 Perform search queries directly from the terminal.
 
 ```bash
-# Search in current directory
+# Search in current directory (FAST mode by default)
 sirchmunk search "How does authentication work?"
 
 # Search in specific paths
 sirchmunk search "find all API endpoints" ./src ./docs
+
+# DEEP mode: comprehensive analysis with Monte Carlo sampling
+sirchmunk search "database architecture" --mode DEEP
 
 # Quick filename search (no LLM required)
 sirchmunk search "config" --mode FILENAME_ONLY
