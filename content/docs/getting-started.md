@@ -88,4 +88,5 @@ asyncio.run(main())
   {{< card url="../guide/configuration" title="Configuration" icon="adjustments-vertical" subtitle="Customize Sirchmunk's behavior" >}}
   {{< card url="../guide/web-ui" title="Web UI" icon="computer-desktop" subtitle="Set up the web interface" >}}
   {{< card url="../guide/mcp" title="MCP Integration" icon="link" subtitle="Connect with Claude Desktop and Cursor IDE" >}}
+  {{< card url="../guide/docker" title="Docker Deployment" icon="cloud" subtitle="One-command containerized deployment" >}}
 {{< /cards >}}

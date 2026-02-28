@@ -65,6 +65,8 @@ Sirchmunk's design philosophy rests on three pillars:
 
 At the heart of Sirchmunk is a multi-phase search pipeline. The core design principle is **maximum parallelism within each phase** combined with **strict phase dependencies** between them. This achieves both speed and correctness: independent tasks race concurrently, while each phase builds on the converged output of the previous one.
 
+Sirchmunk supports two search modes: **FAST mode** (default) uses a greedy strategy with 2-level keyword cascade, context-window sampling, and early stopping — completing retrieval in 2–5 seconds with only 2 LLM calls (~10x faster than DEEP mode). **DEEP mode** activates the full pipeline described below, including Monte Carlo evidence sampling and multi-round ReAct refinement, for maximum recall on complex queries (10–30 seconds).
+
 ```text
 Query
   |

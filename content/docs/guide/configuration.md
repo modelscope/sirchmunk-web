@@ -13,7 +13,7 @@ Sirchmunk is configured through environment variables stored in a `.env` file. A
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `LLM_API_KEY` | Your LLM API key (required for DEEP mode) | — |
+| `LLM_API_KEY` | Your LLM API key (required for FAST and DEEP modes) | — |
 | `LLM_BASE_URL` | OpenAI-compatible API base URL | `https://api.openai.com/v1` |
 | `LLM_MODEL` | Model name to use | `gpt-4o` |
 
@@ -59,7 +59,7 @@ When invoking search (via SDK, CLI, or API), the following parameters are availa
 |-----------|------|---------|-------------|
 | `query` | `string` | *required* | Search query or question |
 | `paths` | `string[]` | *required* | Directories or files to search |
-| `mode` | `string` | `DEEP` | `DEEP` (full analysis) or `FILENAME_ONLY` (fast) |
+| `mode` | `string` | `FAST` | `FAST` (greedy, 2-5s), `DEEP` (Monte Carlo, 10-30s), or `FILENAME_ONLY` |
 | `max_depth` | `int` | `null` | Maximum directory depth |
 | `top_k_files` | `int` | `null` | Number of top files to return |
 | `keyword_levels` | `int` | `null` | Keyword granularity levels |
@@ -68,4 +68,4 @@ When invoking search (via SDK, CLI, or API), the following parameters are availa
 | `return_cluster` | `bool` | `false` | Return full KnowledgeCluster object |
 
 > [!NOTE]
-> `FILENAME_ONLY` mode does not require an LLM API key. `DEEP` mode requires a configured LLM.
+> `FILENAME_ONLY` mode does not require an LLM API key. `FAST` and `DEEP` modes require a configured LLM. `FAST` mode uses a greedy strategy with 2-level keyword cascade and early stopping — approximately **10x faster** than `DEEP` mode.

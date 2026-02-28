@@ -26,7 +26,7 @@ Sirchmunk 在服务器模式下（`sirchmunk serve` 或 `sirchmunk web serve`）
 {
   "query": "How does authentication work?",
   "paths": ["/path/to/project"],
-  "mode": "DEEP",
+  "mode": "FAST",
   "max_depth": 10,
   "top_k_files": 20,
   "keyword_levels": 3,
@@ -58,7 +58,7 @@ Sirchmunk 在服务器模式下（`sirchmunk serve` 或 `sirchmunk web serve`）
 {
   "status": "ok",
   "llm_configured": true,
-  "version": "0.0.2"
+  "version": "0.0.4"
 }
 ```
 
@@ -67,7 +67,15 @@ Sirchmunk 在服务器模式下（`sirchmunk serve` 或 `sirchmunk web serve`）
 ### cURL
 
 ```bash
-# 基础搜索（DEEP 模式）
+# FAST 模式（默认，贪心搜索，2 次 LLM 调用）
+curl -X POST http://localhost:8584/api/v1/search \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "How does authentication work?",
+    "paths": ["/path/to/project"]
+  }'
+
+# DEEP 模式（蒙特卡洛证据采样全面分析）
 curl -X POST http://localhost:8584/api/v1/search \
   -H "Content-Type: application/json" \
   -d '{
@@ -76,7 +84,7 @@ curl -X POST http://localhost:8584/api/v1/search \
     "mode": "DEEP"
   }'
 
-# 文件名搜索（快速，无需 LLM）
+# 文件名搜索（无需 LLM）
 curl -X POST http://localhost:8584/api/v1/search \
   -H "Content-Type: application/json" \
   -d '{
@@ -96,7 +104,6 @@ response = requests.post(
     json={
         "query": "How does authentication work?",
         "paths": ["/path/to/project"],
-        "mode": "DEEP"
     },
     timeout=300
 )
@@ -119,7 +126,6 @@ async def search():
             json={
                 "query": "find all API endpoints",
                 "paths": ["/path/to/project"],
-                "mode": "DEEP"
             }
         )
         data = resp.json()
@@ -137,7 +143,6 @@ const response = await fetch("http://localhost:8584/api/v1/search", {
   body: JSON.stringify({
     query: "How does authentication work?",
     paths: ["/path/to/project"],
-    mode: "DEEP"
   })
 });
 

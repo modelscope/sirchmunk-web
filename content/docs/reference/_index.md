@@ -26,7 +26,7 @@ Execute an intelligent search query.
 {
   "query": "How does authentication work?",
   "paths": ["/path/to/project"],
-  "mode": "DEEP",
+  "mode": "FAST",
   "max_depth": 10,
   "top_k_files": 20,
   "keyword_levels": 3,
@@ -58,7 +58,7 @@ Check server health and LLM configuration.
 {
   "status": "ok",
   "llm_configured": true,
-  "version": "0.0.2"
+  "version": "0.0.4"
 }
 ```
 
@@ -67,7 +67,15 @@ Check server health and LLM configuration.
 ### cURL
 
 ```bash
-# Basic search (DEEP mode)
+# FAST mode (default, greedy search with 2 LLM calls)
+curl -X POST http://localhost:8584/api/v1/search \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "How does authentication work?",
+    "paths": ["/path/to/project"]
+  }'
+
+# DEEP mode (comprehensive analysis with Monte Carlo sampling)
 curl -X POST http://localhost:8584/api/v1/search \
   -H "Content-Type: application/json" \
   -d '{
@@ -76,7 +84,7 @@ curl -X POST http://localhost:8584/api/v1/search \
     "mode": "DEEP"
   }'
 
-# Filename search (fast, no LLM required)
+# Filename search (no LLM required)
 curl -X POST http://localhost:8584/api/v1/search \
   -H "Content-Type: application/json" \
   -d '{
@@ -96,7 +104,6 @@ response = requests.post(
     json={
         "query": "How does authentication work?",
         "paths": ["/path/to/project"],
-        "mode": "DEEP"
     },
     timeout=300
 )
@@ -119,7 +126,6 @@ async def search():
             json={
                 "query": "find all API endpoints",
                 "paths": ["/path/to/project"],
-                "mode": "DEEP"
             }
         )
         data = resp.json()
@@ -137,7 +143,6 @@ const response = await fetch("http://localhost:8584/api/v1/search", {
   body: JSON.stringify({
     query: "How does authentication work?",
     paths: ["/path/to/project"],
-    mode: "DEEP"
   })
 });
 

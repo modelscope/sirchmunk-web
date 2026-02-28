@@ -26,13 +26,19 @@ llm = OpenAIChat(
 )
 
 async def main():
-    # Create the search engine
     searcher = AgenticSearch(llm=llm)
 
-    # Execute a search
+    # FAST mode (default): greedy search, 2 LLM calls, 2-5s
     result: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
+    )
+
+    # DEEP mode: comprehensive analysis with Monte Carlo sampling, 10-30s
+    result_deep: str = await searcher.search(
+        query="How does transformer attention work?",
+        paths=["/path/to/documents"],
+        mode="DEEP",
     )
 
     print(result)
@@ -51,7 +57,7 @@ asyncio.run(main())
 result = await searcher.search(
     query="database connection pooling",        # Required: search question
     paths=["/path/to/project/src"],             # Required: directories to search
-    mode="DEEP",                                # DEEP or FILENAME_ONLY
+    mode="DEEP",                                # FAST (default), DEEP, or FILENAME_ONLY
     max_depth=10,                               # Max directory depth
     top_k_files=20,                             # Number of top files
     keyword_levels=3,                           # Keyword granularity

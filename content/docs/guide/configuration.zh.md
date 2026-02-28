@@ -13,7 +13,7 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 
 | 变量 | 描述 | 默认值 |
 |------|------|--------|
-| `LLM_API_KEY` | LLM API 密钥（DEEP 模式必需） | — |
+| `LLM_API_KEY` | LLM API 密钥（FAST 和 DEEP 模式必需） | — |
 | `LLM_BASE_URL` | OpenAI 兼容 API 基础 URL | `https://api.openai.com/v1` |
 | `LLM_MODEL` | 使用的模型名称 | `gpt-4o` |
 
@@ -59,7 +59,7 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 |------|------|--------|------|
 | `query` | `string` | *必填* | 搜索查询或问题 |
 | `paths` | `string[]` | *必填* | 要搜索的目录或文件 |
-| `mode` | `string` | `DEEP` | `DEEP`（完整分析）或 `FILENAME_ONLY`（快速） |
+| `mode` | `string` | `FAST` | `FAST`（贪心搜索，2-5s）、`DEEP`（蒙特卡洛采样，10-30s）或 `FILENAME_ONLY` |
 | `max_depth` | `int` | `null` | 最大目录深度 |
 | `top_k_files` | `int` | `null` | 返回的文件数量 |
 | `keyword_levels` | `int` | `null` | 关键词粒度级别 |
@@ -68,4 +68,4 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 | `return_cluster` | `bool` | `false` | 返回完整的 KnowledgeCluster 对象 |
 
 > [!NOTE]
-> `FILENAME_ONLY` 模式不需要 LLM API 密钥。`DEEP` 模式需要配置 LLM。
+> `FILENAME_ONLY` 模式不需要 LLM API 密钥。`FAST` 和 `DEEP` 模式需要配置 LLM。`FAST` 模式采用贪心策略，结合两级关键词级联与 early stopping，速度约为 `DEEP` 模式的 **10 倍**。

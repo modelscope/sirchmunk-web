@@ -26,13 +26,19 @@ llm = OpenAIChat(
 )
 
 async def main():
-    # 创建搜索引擎
     searcher = AgenticSearch(llm=llm)
 
-    # 执行搜索
+    # FAST 模式（默认）：贪心搜索，2 次 LLM 调用，2-5s
     result: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
+    )
+
+    # DEEP 模式：蒙特卡洛证据采样全面分析，10-30s
+    result_deep: str = await searcher.search(
+        query="How does transformer attention work?",
+        paths=["/path/to/documents"],
+        mode="DEEP",
     )
 
     print(result)
@@ -51,7 +57,7 @@ asyncio.run(main())
 result = await searcher.search(
     query="database connection pooling",        # 必填：搜索问题
     paths=["/path/to/project/src"],             # 必填：搜索目录
-    mode="DEEP",                                # DEEP 或 FILENAME_ONLY
+    mode="DEEP",                                # FAST（默认）、DEEP 或 FILENAME_ONLY
     max_depth=10,                               # 最大目录深度
     top_k_files=20,                             # 最大文件数
     keyword_levels=3,                           # 关键词粒度

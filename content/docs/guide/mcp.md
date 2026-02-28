@@ -71,7 +71,7 @@ Execute an intelligent search query.
 **Parameters:**
 - `query` (string, required) — The search question
 - `paths` (string[], optional) — Directories to search (defaults to `SIRCHMUNK_SEARCH_PATHS`)
-- `mode` (string, optional) — `DEEP` or `FILENAME_ONLY`
+- `mode` (string, optional) — `FAST` (default), `DEEP`, or `FILENAME_ONLY`
 
 ### `sirchmunk_get_cluster`
 
@@ -88,8 +88,9 @@ List all stored knowledge clusters.
 
 | Mode | Description | LLM Required |
 |------|-------------|:------------:|
-| **DEEP** | Full multi-phase analysis with Monte Carlo evidence sampling | Yes |
-| **FILENAME_ONLY** | Fast filename-based search without content analysis | No |
+| **FAST** | Greedy search with 2-level keyword cascade and early stopping (2-5s, ~10x faster than DEEP) | Yes |
+| **DEEP** | Full multi-phase analysis with Monte Carlo evidence sampling (10-30s) | Yes |
+| **FILENAME_ONLY** | Filename-based search without content analysis | No |
 
 ## Integration with Claude Desktop
 
