@@ -60,7 +60,7 @@ asyncio.run(main())
 result = await searcher.search(
     query="database connection pooling",        # Required: search question
     paths=["/path/to/project/src"],             # Optional: directories (env, then cwd)
-    mode="DEEP",                                # FAST (default), DEEP, or FILENAME_ONLY
+    mode="FAST",                                # FAST (default), DEEP, or FILENAME_ONLY
     max_depth=10,                               # Max directory depth
     top_k_files=20,                             # Number of top files
     max_loops=10,                               # Max search loops

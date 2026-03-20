@@ -57,7 +57,7 @@ asyncio.run(main())
 result = await searcher.search(
     query="database connection pooling",        # 必填：搜索问题
     paths=["/path/to/project/src"],             # 可选：省略时回退到 SIRCHMUNK_SEARCH_PATHS → cwd
-    mode="DEEP",                                # FAST（默认）、DEEP 或 FILENAME_ONLY
+    mode="FAST",                                # FAST（默认）、DEEP 或 FILENAME_ONLY
     max_depth=10,                               # 最大目录深度
     top_k_files=20,                             # 最大文件数
     max_loops=10,                               # ReAct 最大迭代次数（DEEP 模式）
