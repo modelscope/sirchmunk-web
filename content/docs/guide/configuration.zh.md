@@ -25,7 +25,15 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 | `SIRCHMUNK_SEARCH_PATHS` | 默认搜索路径（逗号分隔） | — |
 | `SIRCHMUNK_MAX_DEPTH` | 最大目录遍历深度 | `10` |
 | `SIRCHMUNK_TOP_K_FILES` | 分析的最大文件数 | `20` |
-| `SIRCHMUNK_KEYWORD_LEVELS` | 关键词粒度级别 | `3` |
+| `SIRCHMUNK_MAX_CONCURRENT_SEARCHES` | 最大并发搜索任务数 | `3` |
+| `SIRCHMUNK_ENABLE_CLUSTER_REUSE` | 启用知识簇复用 | `false` |
+
+### 对话配置
+
+| 变量 | 描述 | 默认值 |
+|------|------|--------|
+| `CHAT_HISTORY_MAX_TURNS` | 保留在历史中的最大对话轮数 | — |
+| `CHAT_HISTORY_MAX_TOKENS` | 保留对话历史的最大 token 预算 | — |
 
 ### 服务器配置
 
@@ -58,14 +66,16 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 | 参数 | 类型 | 默认值 | 描述 |
 |------|------|--------|------|
 | `query` | `string` | *必填* | 搜索查询或问题 |
-| `paths` | `string[]` | *必填* | 要搜索的目录或文件 |
+| `paths` | `string \| string[]` | *可选* | 要搜索的目录或文件；未设置时依次回退到 `SIRCHMUNK_SEARCH_PATHS`、当前工作目录 |
 | `mode` | `string` | `FAST` | `FAST`（贪心搜索，2-5s）、`DEEP`（蒙特卡洛采样，10-30s）或 `FILENAME_ONLY` |
 | `max_depth` | `int` | `null` | 最大目录深度 |
 | `top_k_files` | `int` | `null` | 返回的文件数量 |
-| `keyword_levels` | `int` | `null` | 关键词粒度级别 |
+| `enable_dir_scan` | `bool` | `true` | 是否启用目录扫描 |
+| `max_loops` | `int` | `null` | DEEP 模式循环上限 |
+| `max_token_budget` | `int` | `null` | DEEP 模式 token 预算（未设置时默认 128K） |
 | `include_patterns` | `string[]` | `null` | 要包含的文件 glob 模式 |
 | `exclude_patterns` | `string[]` | `null` | 要排除的文件 glob 模式 |
-| `return_cluster` | `bool` | `false` | 返回完整的 KnowledgeCluster 对象 |
+| `return_context` | `bool` | `false` | 返回包含知识簇与遥测的 SearchContext |
 
 > [!NOTE]
 > `FILENAME_ONLY` 模式不需要 LLM API 密钥。`FAST` 和 `DEEP` 模式需要配置 LLM。`FAST` 模式采用贪心策略，结合两级关键词级联与 early stopping，速度约为 `DEEP` 模式的 **10 倍**。

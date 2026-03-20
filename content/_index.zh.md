@@ -20,7 +20,7 @@ sections:
         text: 阅读技术报告
         url: blog/technical-deep-dive/
       announcement:
-        text: "Sirchmunk v0.0.4 发布 — Docker 部署支持、FAST 搜索模式与部署流程简化！"
+        text: "Sirchmunk v0.0.6post1 — OpenClaw 技能支持、SSE 流式 API 与多轮对话"
         link:
           text: "查看所有版本"
           url: "https://github.com/modelscope/sirchmunk/releases"
@@ -74,7 +74,7 @@ sections:
           description: "当常规检索不足时，ReAct 智能体自主迭代推理并探索替代检索策略，直到找到答案。"
         - name: 多接口集成
           icon: globe-alt
-          description: "MCP 协议实现 AI 到 AI 通信，REST API、WebSocket 实时聊天、CLI 和现代 Web UI — 全部内置。"
+          description: "MCP 协议、OpenClaw 技能，REST API、WebSocket 实时聊天、CLI 与现代 Web UI — 全部内置。"
         - name: Token 高效设计
           icon: bolt
           description: "仅在必要时触发 LLM 推理。蒙特卡洛采样和知识复用最大程度降低成本，同时最大化智能。"

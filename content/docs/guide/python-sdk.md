@@ -46,6 +46,9 @@ async def main():
 asyncio.run(main())
 ```
 
+> [!NOTE]
+> The `paths` parameter is optional. When omitted, search roots fall back to the `SIRCHMUNK_SEARCH_PATHS` environment variable, then the current working directory.
+
 > [!WARNING]
 > Upon initialization, `AgenticSearch` automatically checks if `ripgrep-all` and `ripgrep` are installed. If they are missing, it will attempt to install them automatically. If the automatic installation fails, please install them manually:
 > - [ripgrep](https://github.com/BurntSushi/ripgrep)
@@ -56,14 +59,14 @@ asyncio.run(main())
 ```python
 result = await searcher.search(
     query="database connection pooling",        # Required: search question
-    paths=["/path/to/project/src"],             # Required: directories to search
+    paths=["/path/to/project/src"],             # Optional: directories (env, then cwd)
     mode="DEEP",                                # FAST (default), DEEP, or FILENAME_ONLY
     max_depth=10,                               # Max directory depth
     top_k_files=20,                             # Number of top files
-    keyword_levels=3,                           # Keyword granularity
+    max_loops=10,                               # Max search loops
     include_patterns=["*.py", "*.java"],        # File patterns to include
     exclude_patterns=["*test*", "*__pycache__*"], # Patterns to exclude
-    return_cluster=True,                        # Return full KnowledgeCluster
+    return_context=True,                        # Return full SearchContext
 )
 ```
 
@@ -77,17 +80,17 @@ result = await searcher.search(query="...", paths=["..."])
 print(result)
 ```
 
-### With Knowledge Cluster
+### With SearchContext
 
 ```python
-# Get the full KnowledgeCluster object
+# Get the full SearchContext object
 result = await searcher.search(
     query="...",
     paths=["..."],
-    return_cluster=True,
+    return_context=True,
 )
 
-# Access cluster metadata
+# Access context metadata
 print(result.cluster_id)
 print(result.confidence)
 print(result.lifecycle_state)

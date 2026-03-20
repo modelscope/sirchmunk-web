@@ -41,7 +41,7 @@ result = await searcher.search(
     paths=["./src"],
     max_depth=5,           # Limit directory traversal
     top_k_files=10,        # Analyze fewer files for speed
-    keyword_levels=2,      # Fewer keyword granularity levels
+    max_loops=5,           # Limit ReAct iterations (DEEP mode)
 )
 ```
 

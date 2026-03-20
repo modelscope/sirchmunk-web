@@ -41,7 +41,7 @@ result = await searcher.search(
     paths=["./src"],
     max_depth=5,           # 限制目录遍历深度
     top_k_files=10,        # 分析更少文件以提升速度
-    keyword_levels=2,      # 更少的关键词粒度级别
+    max_loops=5,           # 限制 ReAct 迭代次数（DEEP 模式）
 )
 ```
 
