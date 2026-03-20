@@ -46,10 +46,10 @@ sections:
           description: |
             无需预索引  
             直接搜索
-        - statistic: "5"
+        - statistic: "6"
           description: |
             集成接口  
-            MCP · REST · WS · CLI · Web
+            SKILL · MCP · REST · WS · CLI · Web
     design:
       css_class: "bg-gray-100 dark:bg-gray-800"
       spacing:

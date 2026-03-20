@@ -69,17 +69,13 @@ Below are screenshots of **local RAG-style retrieval** with the Sirchmunk skill 
 
 *Query (illustrative):* ask about ancient societies and light reflection; the answer is grounded in a local file such as `obqa.csv`, attributed as "Found using **sirchmunk** local search".
 
-<div align="center">
-  <img src="example2.png" alt="English OpenClaw TUI: Sirchmunk local file search with markdown answer" width="600" style="max-width: 100%; height: auto;" />
-</div>
+![English OpenClaw TUI: Sirchmunk local file search with markdown answer](example2.png "Sirchmunk search invoked inside OpenClaw TUI — English answer grounded in local files")
 
 ### Chinese — local search example
 
 *Query (illustrative):* about what temperature a thermometer should show when homemade popsicles are ready; the agent uses **sirchmunk** to retrieve from local CSVs (`obqa.csv`, `arc_easy.csv`, etc.) and responds in structured Chinese.
 
-<div align="center">
-  <img src="example1.png" alt="Chinese OpenClaw TUI: Sirchmunk local file search with Chinese answer" width="600" style="max-width: 100%; height: auto;" />
-</div>
+![Chinese OpenClaw TUI: Sirchmunk local file search with Chinese answer](example1.png "Sirchmunk search invoked inside OpenClaw TUI — 中文结构化回答")
 
 ## How It Works
 
