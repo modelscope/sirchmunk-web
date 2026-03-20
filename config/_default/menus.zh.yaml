@@ -25,7 +25,8 @@ sidebar:
     weight: 1
   - identifier: community
     name: "社区"
-    pageRef: "/community"
+    # Use url (not pageRef): pageRef breaks on zh pages → /zh/sirchmunk-web/zh/community/
+    url: community/
     weight: 2
   - identifier: github
     name: "GitHub ↗"

@@ -46,10 +46,10 @@ sections:
           description: |
             Pre-indexing  
             required
-        - statistic: "5"
+        - statistic: "6"
           description: |
             Integration surfaces  
-            MCP · REST · WS · CLI · Web
+            SKILL · MCP · REST · WS · CLI · Web
     design:
       css_class: "bg-gray-100 dark:bg-gray-800"
       spacing:

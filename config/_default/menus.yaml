@@ -26,7 +26,8 @@ sidebar:
     weight: 1
   - identifier: community
     name: "Community"
-    pageRef: "/community"
+    # url matches main nav; avoids pageRef edge cases with multilingual + base path
+    url: community/
     weight: 2
   - identifier: github
     name: "GitHub ↗"

@@ -69,17 +69,13 @@ Agent 现在可以调用 `sirchmunk_search` 工具。你也可以直接运行脚
 
 *示例查询：* 询问有关古代社会与光反射的问题；答案基于本地文件（如 `obqa.csv`）生成，并标注"Found using **sirchmunk** local search"。
 
-<div align="center">
-  <img src="example2.png" alt="英文 OpenClaw TUI：Sirchmunk 本地文件检索与 Markdown 格式回答" width="600" style="max-width: 100%; height: auto;" />
-</div>
+![英文 OpenClaw TUI：Sirchmunk 本地文件检索与 Markdown 格式回答](example2.png "在 OpenClaw TUI 中调用 Sirchmunk 搜索 — 英文回答基于本地文件生成")
 
 ### 中文 — 本地检索示例
 
 *示例查询：* 自制冰棍"做好"时温度计应显示的读数；Agent 用 **sirchmunk** 检索本地 CSV（如 `obqa.csv`、`arc_easy.csv` 等），并以中文结构化回答。
 
-<div align="center">
-  <img src="example1.png" alt="中文 OpenClaw TUI：Sirchmunk 本地文件检索与中文回复" width="600" style="max-width: 100%; height: auto;" />
-</div>
+![中文 OpenClaw TUI：Sirchmunk 本地文件检索与中文回复](example1.png "在 OpenClaw TUI 中调用 Sirchmunk 搜索 — 中文结构化回答")
 
 ## 工作原理
 
