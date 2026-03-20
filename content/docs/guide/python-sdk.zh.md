@@ -56,14 +56,14 @@ asyncio.run(main())
 ```python
 result = await searcher.search(
     query="database connection pooling",        # 必填：搜索问题
-    paths=["/path/to/project/src"],             # 必填：搜索目录
-    mode="DEEP",                                # FAST（默认）、DEEP 或 FILENAME_ONLY
+    paths=["/path/to/project/src"],             # 可选：省略时回退到 SIRCHMUNK_SEARCH_PATHS → cwd
+    mode="FAST",                                # FAST（默认）、DEEP 或 FILENAME_ONLY
     max_depth=10,                               # 最大目录深度
     top_k_files=20,                             # 最大文件数
-    keyword_levels=3,                           # 关键词粒度
+    max_loops=10,                               # ReAct 最大迭代次数（DEEP 模式）
     include_patterns=["*.py", "*.java"],        # 要包含的文件模式
     exclude_patterns=["*test*", "*__pycache__*"], # 要排除的文件模式
-    return_cluster=True,                        # 返回完整的 KnowledgeCluster
+    return_context=True,                        # 返回 SearchContext（含 KnowledgeCluster 和遥测数据）
 )
 ```
 
@@ -77,17 +77,17 @@ result = await searcher.search(query="...", paths=["..."])
 print(result)
 ```
 
-### 含知识簇
+### 含 SearchContext
 
 ```python
-# 获取完整的 KnowledgeCluster 对象
+# 获取完整的 SearchContext 对象
 result = await searcher.search(
     query="...",
     paths=["..."],
-    return_cluster=True,
+    return_context=True,
 )
 
-# 访问知识簇元数据
+# 访问上下文元数据
 print(result.cluster_id)
 print(result.confidence)
 print(result.lifecycle_state)
@@ -108,10 +108,12 @@ for usage in searcher.llm_usages:
 
 Sirchmunk 适用于任何 OpenAI 兼容的 API 端点：
 
-- **OpenAI** — GPT-4、GPT-4o、GPT-3.5
+- **OpenAI** — GPT-4、GPT-4o、GPT-5.2
+- **MiniMax** — MiniMax-M2.7、MiniMax-M2.7-highspeed
+- **DeepSeek** — DeepSeek-V3、DeepSeek-R1 及其他 DeepSeek 对话模型
 - **本地模型** — Ollama、llama.cpp、vLLM、SGLang
 - **Claude** — 通过 API 代理
-- **任何 OpenAI 兼容端点**
+- **其他供应商** — 提供 OpenAI 兼容 HTTP API 的服务商
 
 ```python
 # 示例：使用本地 Ollama 模型

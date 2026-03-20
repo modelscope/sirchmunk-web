@@ -70,8 +70,8 @@ sirchmunk mcp serve --transport http --port 3000
 
 **参数：**
 - `query` (string, 必填) — 搜索问题
-- `paths` (string[], 可选) — 搜索目录（默认使用 `SIRCHMUNK_SEARCH_PATHS`）
-- `mode` (string, 可选) — `FAST`（默认）、`DEEP` 或 `FILENAME_ONLY`
+- `paths` (string[], 可选) — 搜索目录；省略时依次回退到 `SIRCHMUNK_SEARCH_PATHS`，再到当前工作目录
+- `mode` (string, 可选) — `FAST`（默认）、`DEEP` 或 `FILENAME_ONLY`（`paths` 同样可选，回退规则同上）
 
 ### `sirchmunk_get_cluster`
 
@@ -91,6 +91,10 @@ sirchmunk mcp serve --transport http --port 3000
 | **FAST** | 贪心搜索，两级关键词级联 + early stopping（2-5s，速度约为 DEEP 的 10 倍） | 是 |
 | **DEEP** | 蒙特卡洛证据采样完整多阶段分析（10-30s） | 是 |
 | **FILENAME_ONLY** | 文件名搜索，无内容分析 | 否 |
+
+## OpenClaw 集成
+
+Sirchmunk 已发布为 [OpenClaw](https://openclaw.org/) 技能，上架 [ClawHub](https://clawhub.ai/wangxingjun778/sirchmunk)。任何兼容 OpenClaw 的 Agent 均可通过自然语言调用 Sirchmunk 的搜索能力，无需 MCP 配置。详见 [openclaw-recipe](https://github.com/modelscope/sirchmunk/tree/main/recipes/openclaw_skills)。
 
 ## 与 Claude Desktop 集成
 

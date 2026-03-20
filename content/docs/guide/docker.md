@@ -9,18 +9,20 @@ Pre-built Docker images are available on Alibaba Cloud Container Registry for qu
 
 | Region | Image |
 |---|---|
-| US West | `modelscope-registry.us-west-1.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.4` |
-| China Beijing | `modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.4` |
+| US West | `modelscope-registry.us-west-1.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6` |
+| China Beijing | `modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6` |
 
 ## Quick Start
 
 ```bash
 # Pull the image
-docker pull modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.4
+docker pull modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6
 
 # Start the service
 docker run -d \
   --name sirchmunk \
+  --cpus="4" \
+  --memory="2g" \
   -p 8584:8584 \
   -e LLM_API_KEY="your-api-key-here" \
   -e LLM_BASE_URL="https://api.openai.com/v1" \
@@ -29,9 +31,11 @@ docker run -d \
   -e UI_THEME=light \
   -e UI_LANGUAGE=en \
   -e SIRCHMUNK_VERBOSE=false \
+  -e SIRCHMUNK_ENABLE_CLUSTER_REUSE=false \
+  -e SIRCHMUNK_SEARCH_PATHS=/mnt/docs \
   -v /path/to/your_work_path:/data/sirchmunk \
   -v /path/to/your/docs:/mnt/docs:ro \
-  modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.4
+  modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6
 ```
 
 Open http://localhost:8584 to access the WebUI, or call the API directly:
@@ -67,6 +71,9 @@ print(response.json())
 | `UI_THEME` | Web UI theme (`light` or `dark`) | `light` |
 | `UI_LANGUAGE` | UI language (`en` or `zh`) | `en` |
 | `SIRCHMUNK_VERBOSE` | Enable verbose logging | `false` |
+| `SIRCHMUNK_ENABLE_CLUSTER_REUSE` | Enable knowledge cluster reuse | `false` |
+| `SIRCHMUNK_SEARCH_PATHS` | Default search paths (comma-separated) | — |
+| `SIRCHMUNK_MAX_CONCURRENT_SEARCHES` | Max concurrent search tasks | `3` |
 
 > [!TIP]
 > For full Docker parameters and advanced usage, see the [docker/README.md](https://github.com/modelscope/sirchmunk/blob/main/docker/README.md) in the Sirchmunk repository.

@@ -70,8 +70,8 @@ Execute an intelligent search query.
 
 **Parameters:**
 - `query` (string, required) — The search question
-- `paths` (string[], optional) — Directories to search (defaults to `SIRCHMUNK_SEARCH_PATHS`)
-- `mode` (string, optional) — `FAST` (default), `DEEP`, or `FILENAME_ONLY`
+- `paths` (string[], optional) — Directories to search; when omitted, falls back to `SIRCHMUNK_SEARCH_PATHS`, then the current working directory
+- `mode` (string, optional) — `FAST` (default), `DEEP`, or `FILENAME_ONLY` (`paths` is optional with the same fallback chain as above)
 
 ### `sirchmunk_get_cluster`
 
@@ -91,6 +91,10 @@ List all stored knowledge clusters.
 | **FAST** | Greedy search with 2-level keyword cascade and early stopping (2-5s, ~10x faster than DEEP) | Yes |
 | **DEEP** | Full multi-phase analysis with Monte Carlo evidence sampling (10-30s) | Yes |
 | **FILENAME_ONLY** | Filename-based search without content analysis | No |
+
+## OpenClaw Integration
+
+Sirchmunk is available as an [OpenClaw](https://openclaw.org/) skill on [ClawHub](https://clawhub.ai/wangxingjun778/sirchmunk). Any OpenClaw-compatible agent can invoke Sirchmunk's search capability via natural language — no MCP configuration needed. See [openclaw-recipe](https://github.com/modelscope/sirchmunk/tree/main/recipes/openclaw_skills) for setup details.
 
 ## Integration with Claude Desktop
 

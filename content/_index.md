@@ -20,7 +20,7 @@ sections:
         text: Read the Technical Report
         url: blog/technical-deep-dive/
       announcement:
-        text: "Sirchmunk v0.0.4 Released — Docker Support, FAST Search Mode & Simplified Deployment"
+        text: "Sirchmunk v0.0.6post1 — OpenClaw Skill, SSE Streaming API & Multi-turn Conversation"
         link:
           text: "View all releases"
           url: "https://github.com/modelscope/sirchmunk/releases"
@@ -74,7 +74,7 @@ sections:
           description: "When standard retrieval falls short, an autonomous ReAct agent iteratively explores alternative strategies until answers are found."
         - name: Multi-Surface Integration
           icon: globe-alt
-          description: "MCP protocol for AI-to-AI communication, REST API, WebSocket real-time chat, CLI, and a modern Web UI — all built in."
+          description: "MCP protocol, OpenClaw skill, REST API, WebSocket real-time chat, CLI, and a modern Web UI — all built in."
         - name: Token-Efficient Design
           icon: bolt
           description: "LLM inference triggered only when necessary. Monte Carlo sampling and knowledge reuse minimize costs while maximizing intelligence."

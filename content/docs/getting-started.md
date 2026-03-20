@@ -69,10 +69,8 @@ llm = OpenAIChat(api_key='your-key', base_url='your-url', model='your-model')
 
 async def main():
     searcher = AgenticSearch(llm=llm)
-    result = await searcher.search(
-        query='How does authentication work?',
-        paths=['./src'],
-    )
+    # paths is optional: SIRCHMUNK_SEARCH_PATHS env, else current working directory
+    result = await searcher.search(query='How does authentication work?')
     print(result)
 
 asyncio.run(main())
@@ -88,5 +86,6 @@ asyncio.run(main())
   {{< card url="../guide/configuration" title="Configuration" icon="adjustments-vertical" subtitle="Customize Sirchmunk's behavior" >}}
   {{< card url="../guide/web-ui" title="Web UI" icon="computer-desktop" subtitle="Set up the web interface" >}}
   {{< card url="../guide/mcp" title="MCP Integration" icon="link" subtitle="Connect with Claude Desktop and Cursor IDE" >}}
+  {{< card url="../guide/mcp" title="OpenClaw Integration" icon="puzzle-piece" subtitle="OpenClaw setup is covered in the MCP guide" >}}
   {{< card url="../guide/docker" title="Docker Deployment" icon="cloud" subtitle="One-command containerized deployment" >}}
 {{< /cards >}}

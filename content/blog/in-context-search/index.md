@@ -103,6 +103,8 @@ Sirchmunk represents the **"Agile Hunter"** philosophy in the In-Context Search 
 
 Sirchmunk operates in two distinct search modes. **FAST mode** (default) employs a greedy strategy with 2-level keyword cascade and context-window sampling, achieving retrieval in 2–5 seconds with only 2 LLM calls — a **~10x speedup** over the comprehensive mode. **DEEP mode** activates the full Monte Carlo evidence sampling pipeline with multi-round ReAct refinement for maximum recall on complex queries (10–30 seconds).
 
+As of v0.0.6post1, Sirchmunk also ships as an OpenClaw skill — enabling any OpenClaw-compatible agent to invoke its search capability via natural language. From v0.0.6 onward, the stack further includes **multi-turn conversation** with context management, **document summarization**, and **cross-lingual retrieval** alongside the FAST/DEEP search modes above.
+
 ---
 
 #### 3.3.1 The Importance Sampling & Progressive Retrieval Mechanism

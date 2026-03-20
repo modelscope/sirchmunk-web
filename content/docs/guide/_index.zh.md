@@ -14,4 +14,6 @@ Sirchmunk 配置、部署和扩展的综合指南。
   {{< card url="web-ui" title="Web UI" icon="computer-desktop" >}}
   {{< card url="mcp" title="MCP 集成" icon="link" >}}
   {{< card url="python-sdk" title="Python SDK" icon="code-bracket" >}}
+  {{< card url="docker" title="Docker 部署" icon="cube" >}}
+  {{< card url="recipes" title="实践方案" icon="beaker" subtitle="OpenClaw 技能及更多集成方案。" >}}
 {{< /cards >}}

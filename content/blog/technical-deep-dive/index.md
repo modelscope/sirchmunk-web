@@ -18,7 +18,7 @@ image:
 
 **Sirchmunk** is an open-source, embedding-free, agentic search engine that transforms raw data into self-evolving intelligence in real time. Unlike traditional RAG (Retrieval-Augmented Generation) systems that depend on static vector embeddings, pre-computed indexes, and complex ETL pipelines, Sirchmunk operates directly on raw files — delivering instant, full-fidelity retrieval without any pre-processing.
 
-This report provides a comprehensive technical analysis of Sirchmunk's design philosophy and architectural principles, covering its multi-phase search pipeline, Monte Carlo evidence sampling, ReAct-based agentic refinement, self-evolving knowledge clustering, and its integration surfaces across MCP, REST, WebSocket, CLI, and Web UI.
+This report provides a comprehensive technical analysis of Sirchmunk's design philosophy and architectural principles, covering its multi-phase search pipeline, Monte Carlo evidence sampling, ReAct-based agentic refinement, self-evolving knowledge clustering, and its integration surfaces across MCP, OpenClaw, REST, WebSocket, CLI, and Web UI.
 
 <!--more-->
 
@@ -26,7 +26,7 @@ This report provides a comprehensive technical analysis of Sirchmunk's design ph
 
 **Sirchmunk** is an open-source, embedding-free, agentic search engine that transforms raw data into self-evolving intelligence in real time. Unlike traditional RAG (Retrieval-Augmented Generation) systems that depend on static vector embeddings, pre-computed indexes, and complex ETL pipelines, Sirchmunk operates directly on raw files — delivering instant, full-fidelity retrieval without any pre-processing.
 
-This report provides a comprehensive technical analysis of Sirchmunk's design philosophy and architectural principles, covering its multi-phase search pipeline, Monte Carlo evidence sampling, ReAct-based agentic refinement, self-evolving knowledge clustering, and its integration surfaces across MCP, REST, WebSocket, CLI, and Web UI.
+This report provides a comprehensive technical analysis of Sirchmunk's design philosophy and architectural principles, covering its multi-phase search pipeline, Monte Carlo evidence sampling, ReAct-based agentic refinement, self-evolving knowledge clustering, and its integration surfaces across MCP, OpenClaw, REST, WebSocket, CLI, and Web UI.
 
 ## 2. Motivation & Design Philosophy
 
@@ -281,9 +281,9 @@ Writes to disk use an atomic pattern: data is first written to a temporary file,
 
 Each knowledge cluster's embedding vector (384 dimensions) is stored alongside the cluster data, enabling efficient similarity search for the Phase 0 reuse mechanism. This is a deliberate hybrid: while Sirchmunk is "embedding-free" for *retrieval*, it uses lightweight embeddings for *knowledge management* — a pragmatic choice that avoids the costs of embedding every document while still enabling semantic cluster matching.
 
-## 10. Integration Layer: MCP, API & Beyond
+## 10. Integration Layer: MCP, OpenClaw, API & Beyond
 
-Sirchmunk is designed to be **consumed, not deployed**. Rather than requiring users to build applications around it, it exposes its intelligence through multiple standard interfaces — meeting users where they already work.
+Sirchmunk is designed to be **consumed, not deployed**. Rather than requiring users to build applications around it, it exposes its intelligence through multiple standard interfaces — meeting users where they already work. **As of v0.0.6post1**, Sirchmunk is also published as an **OpenClaw skill**, so any OpenClaw-compatible agent can invoke its search workflow via natural language alongside MCP-native and HTTP clients.
 
 ### Model Context Protocol (MCP)
 
@@ -293,7 +293,7 @@ The MCP server supports two transport modes: **stdio** (for local integration wi
 
 ### REST API & Real-Time Chat
 
-For programmatic access, a full REST API provides search, knowledge management, system monitoring, and settings configuration. The design follows the principle of **progressive disclosure**: a single search endpoint suffices for basic use, while advanced parameters allow fine-grained control over search depth, file filtering, and output format.
+For programmatic access, a full REST API provides search, knowledge management, system monitoring, and settings configuration. The design follows the principle of **progressive disclosure**: a single search endpoint suffices for basic use, while advanced parameters allow fine-grained control over search depth, file filtering, and output format — including **`return_context`** to include extended context in responses (this supersedes the legacy **`return_cluster`** flag).
 
 Real-time chat is powered by a WebSocket connection that supports streaming responses with inline search logs and source citations. The chat system supports multiple modes: pure LLM conversation, conversation augmented with file-based RAG, and web-augmented search — all selectable by the user at runtime.
 
@@ -314,7 +314,7 @@ Sirchmunk represents a paradigm shift in how we think about retrieval-augmented 
 - **Token efficiency** — Monte Carlo sampling minimizes LLM costs while maximizing the relevance of extracted evidence.
 - **Self-improving intelligence** — Knowledge clusters compound over time, making repeated queries faster and richer.
 - **Graceful degradation** — When the standard pipeline finds nothing, the ReAct agent explores deeper rather than giving up.
-- **Universal integration** — MCP, REST, WebSocket, CLI, and Web UI meet users wherever they work.
+- **Universal integration** — MCP, OpenClaw, REST, WebSocket, CLI, and Web UI meet users wherever they work.
 
 ### Technology Stack
 
@@ -334,7 +334,7 @@ Sirchmunk represents a paradigm shift in how we think about retrieval-augmented 
 
 ---
 
-*This technical report was generated by analyzing the Sirchmunk source code (v0.0.3).*
+*This technical report was generated by analyzing the Sirchmunk source code (v0.0.6post1).*
 *[github.com/modelscope/sirchmunk](https://github.com/modelscope/sirchmunk) · [ModelScope](https://github.com/modelscope)*
 
 *Sirchmunk: Raw data to self-evolving intelligence, real-time.*
