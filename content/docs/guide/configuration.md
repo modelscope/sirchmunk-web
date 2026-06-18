@@ -53,6 +53,13 @@ All persistent data is stored under `SIRCHMUNK_WORK_PATH`:
   │   │   └── chat_history.db
   │   ├── knowledge/            # Knowledge clusters (Parquet)
   │   │   └── knowledge_clusters.parquet
+  │   ├── compile/              # Compile artifacts (Beta)
+  │   │   ├── manifest.json     # File manifest with hashes
+  │   │   ├── document_catalog.json
+  │   │   ├── summary_index.json
+  │   │   ├── trees/            # Hierarchical tree indices
+  │   │   ├── table_digests/    # Table extraction digests
+  │   │   └── xlsx_digests/     # Spreadsheet digests
   │   └── settings/             # User settings (DuckDB)
   │       └── settings.db
   ├── .env                      # Environment configuration
@@ -67,7 +74,7 @@ When invoking search (via SDK, CLI, or API), the following parameters are availa
 |-----------|------|---------|-------------|
 | `query` | `string` | *required* | Search query or question |
 | `paths` | `string \| string[]` | *optional* | Directories or files to search; falls back to `SIRCHMUNK_SEARCH_PATHS`, then cwd |
-| `mode` | `string` | `FAST` | `FAST` (greedy, 2-5s), `DEEP` (Monte Carlo, 10-30s), or `FILENAME_ONLY` |
+| `mode` | `string` | `FAST` | `FAST` (greedy, 2-5s), `DEEP` (agentic retrieval, 10-30s), or `FILENAME_ONLY` |
 | `max_depth` | `int` | `null` | Maximum directory depth |
 | `top_k_files` | `int` | `null` | Number of top files to return |
 | `enable_dir_scan` | `bool` | `true` | Enable directory scanning |

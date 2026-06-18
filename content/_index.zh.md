@@ -20,7 +20,7 @@ sections:
         text: 阅读技术报告
         url: blog/technical-deep-dive/
       announcement:
-        text: "Sirchmunk v0.0.6post1 — OpenClaw 技能支持、SSE 流式 API 与多轮对话"
+        text: "Sirchmunk v0.0.8 — 知识编译（Beta）、DEEP 模式泛化增强与 I/O 优化"
         link:
           text: "查看所有版本"
           url: "https://github.com/modelscope/sirchmunk/releases"

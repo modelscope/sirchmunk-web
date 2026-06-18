@@ -16,7 +16,7 @@ sirchmunk/
 │   │   │   └── components/     # History, monitor, settings storage
 │   │   ├── cli/                # CLI entry point and web launcher
 │   │   ├── insight/            # Text insight extraction
-│   │   ├── learnings/          # Evidence processing, knowledge base
+│   │   ├── learnings/          # Evidence processing, knowledge base, compiler
 │   │   ├── llm/                # LLM interface (OpenAI-compatible)
 │   │   ├── retrieve/           # Indexless retrieval engine
 │   │   ├── scan/               # Directory and file scanners
@@ -57,9 +57,11 @@ The search pipeline coordinator:
 - **SearchContext** (`schema/search_context.py`) — Budget, state, and audit management
 
 ### Intelligence Layer
-Evidence extraction and knowledge synthesis:
+Evidence extraction, knowledge synthesis, and offline compilation:
 - **EvidenceProcessor** (`learnings/evidence_processor.py`) — Monte Carlo sampling
 - **KnowledgeBase** (`learnings/knowledge_base.py`) — Knowledge cluster management
+- **KnowledgeCompiler** (`learnings/compiler.py`) — Offline document compilation into tree indices and knowledge clusters (Beta)
+- **KnowledgeLint** (`learnings/lint.py`) — Knowledge health checks and auto-repair
 - **ReActAgent** (`agentic/react_agent.py`) — Autonomous exploration
 - **OpenAIChat** (`llm/openai_chat.py`) — Unified LLM interface
 
@@ -79,4 +81,6 @@ Persistence and caching:
 | **DirScanner** | `scan/dir_scanner.py` | Directory structure analysis |
 | **ReActAgent** | `agentic/react_agent.py` | Budget-bounded autonomous exploration |
 | **OpenAIChat** | `llm/openai_chat.py` | Unified LLM interface with streaming and usage tracking |
+| **KnowledgeCompiler** | `learnings/compiler.py` | Offline document compilation into tree indices (Beta) |
+| **KnowledgeLint** | `learnings/lint.py` | Knowledge health checks and auto-repair |
 | **MonitorTracker** | `api/components/monitor_tracker.py` | Real-time system metrics |

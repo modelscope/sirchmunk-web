@@ -16,7 +16,7 @@ sirchmunk/
 │   │   │   └── components/     # 历史、监控、设置存储
 │   │   ├── cli/                # CLI 入口和 Web 启动器
 │   │   ├── insight/            # 文本洞察提取
-│   │   ├── learnings/          # 证据处理、知识库
+│   │   ├── learnings/          # 证据处理、知识库、编译器
 │   │   ├── llm/                # LLM 接口（OpenAI 兼容）
 │   │   ├── retrieve/           # 无索引检索引擎
 │   │   ├── scan/               # 目录和文件扫描器
@@ -57,9 +57,11 @@ Sirchmunk 遵循严格的**关注点分离**模式，分为四个独立层次：
 - **SearchContext** (`schema/search_context.py`) — 预算、状态和审计管理
 
 ### 智能层
-证据提取和知识合成：
+证据提取、知识合成与离线编译：
 - **EvidenceProcessor** (`learnings/evidence_processor.py`) — 蒙特卡洛采样
 - **KnowledgeBase** (`learnings/knowledge_base.py`) — 知识簇管理
+- **KnowledgeCompiler** (`learnings/compiler.py`) — 离线文档编译为树索引和知识簇（Beta）
+- **KnowledgeLint** (`learnings/lint.py`) — 知识健康检查与自动修复
 - **ReActAgent** (`agentic/react_agent.py`) — 自主探索
 - **OpenAIChat** (`llm/openai_chat.py`) — 统一 LLM 接口
 
@@ -79,4 +81,6 @@ Sirchmunk 遵循严格的**关注点分离**模式，分为四个独立层次：
 | **DirScanner** | `scan/dir_scanner.py` | 目录结构分析 |
 | **ReActAgent** | `agentic/react_agent.py` | 预算约束下的自主探索 |
 | **OpenAIChat** | `llm/openai_chat.py` | 统一 LLM 接口（支持流式和使用量跟踪） |
+| **KnowledgeCompiler** | `learnings/compiler.py` | 离线文档编译为树索引（Beta） |
+| **KnowledgeLint** | `learnings/lint.py` | 知识健康检查与自动修复 |
 | **MonitorTracker** | `api/components/monitor_tracker.py` | 实时系统指标 |

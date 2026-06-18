@@ -58,7 +58,7 @@ sirchmunk search "How does authentication work?"
 # Search in specific paths
 sirchmunk search "find all API endpoints" ./src ./docs
 
-# DEEP mode: comprehensive analysis with Monte Carlo sampling
+# DEEP mode: comprehensive agentic retrieval analysis
 sirchmunk search "database architecture" --mode DEEP
 
 # Quick filename search (no LLM required)
@@ -103,6 +103,45 @@ sirchmunk mcp serve
 sirchmunk mcp serve --transport http --port 3000
 ```
 
+### `sirchmunk compile` (Beta)
+
+Pre-process document collections into hierarchical tree indices and knowledge clusters. This is an **optional** step — search works without it, but compile artifacts can significantly boost retrieval precision for large document sets.
+
+```bash
+# Compile documents (incremental by default)
+sirchmunk compile --paths /path/to/documents
+
+# Full recompile (ignore cache)
+sirchmunk compile --paths /path/to/documents --full
+
+# Shallow mode (skip tree indexing, faster)
+sirchmunk compile --paths /path/to/documents --shallow
+
+# Check compile status
+sirchmunk compile --paths /path/to/documents --status
+
+# Run knowledge health checks
+sirchmunk compile --lint --work-path ~/.sirchmunk
+
+# Auto-fix lint issues
+sirchmunk compile --lint --fix --work-path ~/.sirchmunk
+```
+
+| Option | Description |
+|--------|-------------|
+| `--paths` | Directories or files to compile (required) |
+| `--full` | Force full recompile, ignoring incremental cache |
+| `--shallow` | Skip tree indexing, use direct LLM summarization only (faster) |
+| `--max-files` | Max files to process (triggers importance sampling for large sets) |
+| `--concurrency` | Max parallel file compilations (default: 3) |
+| `--status` | Show compile status instead of running compile |
+| `--lint` | Run knowledge health checks |
+| `--fix` | Auto-fix lint issues (use with `--lint`) |
+| `--work-path` | Working directory (default: `~/.sirchmunk`) |
+
+> [!NOTE]
+> Compile artifacts are automatically detected by the search pipeline — no additional configuration is needed after compilation. When no compile artifacts exist, search falls back to the standard retrieval pipeline.
+
 ### `sirchmunk version`
 
 Display version information.
@@ -119,6 +158,7 @@ sirchmunk mcp version
 | `sirchmunk init` | Initialize working directory, .env, and MCP config |
 | `sirchmunk serve` | Start the backend API server |
 | `sirchmunk search` | Perform search queries |
+| `sirchmunk compile` | Compile documents into knowledge indices **(Beta)** |
 | `sirchmunk web init` | Build WebUI frontend (requires Node.js 18+) |
 | `sirchmunk web serve` | Start API + WebUI (single port) |
 | `sirchmunk web serve --dev` | Start API + Next.js dev server (hot-reload) |

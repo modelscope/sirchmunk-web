@@ -18,6 +18,8 @@ Sirchmunk 采用清晰分离的层次化架构，遵循**关注点分离**原则
 | **EvidenceProcessor**   | 基于蒙特卡洛重要性采样的证据处理                                       |
 | **GrepRetriever**       | 高性能 _无索引_ 文件检索，支持并行处理                                 |
 | **OpenAIChat**          | 统一 LLM 接口，支持流式与用量统计                                       |
+| **KnowledgeCompiler**   | 离线文档编译为树索引和知识簇（Beta）                                   |
+| **KnowledgeLint**       | 知识健康检查与自动修复                                                 |
 | **MonitorTracker**      | 实时系统与应用指标采集                                                 |
 
 ## 多阶段搜索管线
@@ -166,6 +168,13 @@ KnowledgeCluster 是一个丰富标注的对象，完整记录了单次搜索周
     │   └── chat_history.db
     ├── knowledge/            # 知识簇（Parquet）
     │   └── knowledge_clusters.parquet
+    ├── compile/              # 编译产物（Beta）
+    │   ├── manifest.json     # 文件清单与哈希
+    │   ├── document_catalog.json
+    │   ├── summary_index.json
+    │   ├── trees/            # 层次化树索引
+    │   ├── table_digests/    # 表格提取摘要
+    │   └── xlsx_digests/     # 电子表格摘要
     └── settings/             # 用户设置（DuckDB）
         └── settings.db
 ```

@@ -20,7 +20,7 @@ sections:
         text: Read the Technical Report
         url: blog/technical-deep-dive/
       announcement:
-        text: "Sirchmunk v0.0.6post1 — OpenClaw Skill, SSE Streaming API & Multi-turn Conversation"
+        text: "Sirchmunk v0.0.8 — Knowledge Compile (Beta), DEEP Mode Generalization & I/O Optimization"
         link:
           text: "View all releases"
           url: "https://github.com/modelscope/sirchmunk/releases"

@@ -81,7 +81,7 @@ Sirchmunk 在服务器模式下（`sirchmunk serve` 或 `sirchmunk web serve`）
 {
   "status": "ok",
   "llm_configured": true,
-  "version": "0.0.6post1",
+  "version": "0.0.8",
   "max_concurrent_searches": 4
 }
 ```
@@ -100,7 +100,7 @@ curl -X POST http://localhost:8584/api/v1/search \
     "paths": ["/path/to/project"]
   }'
 
-# DEEP 模式（蒙特卡洛证据采样全面分析）
+# DEEP 模式（智能体检索全面分析）
 curl -X POST http://localhost:8584/api/v1/search \
   -H "Content-Type: application/json" \
   -d '{

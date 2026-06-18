@@ -89,7 +89,7 @@ List all stored knowledge clusters.
 | Mode | Description | LLM Required |
 |------|-------------|:------------:|
 | **FAST** | Greedy search with 2-level keyword cascade and early stopping (2-5s, ~10x faster than DEEP) | Yes |
-| **DEEP** | Full multi-phase analysis with Monte Carlo evidence sampling (10-30s) | Yes |
+| **DEEP** | Full multi-phase agentic retrieval analysis with self-correction (10-30s) | Yes |
 | **FILENAME_ONLY** | Filename-based search without content analysis | No |
 
 ## OpenClaw Integration
