@@ -53,6 +53,13 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
   │   │   └── chat_history.db
   │   ├── knowledge/            # 知识簇（Parquet）
   │   │   └── knowledge_clusters.parquet
+  │   ├── compile/              # 编译产物（Beta）
+  │   │   ├── manifest.json     # 文件清单与哈希
+  │   │   ├── document_catalog.json
+  │   │   ├── summary_index.json
+  │   │   ├── trees/            # 层次化树索引
+  │   │   ├── table_digests/    # 表格提取摘要
+  │   │   └── xlsx_digests/     # 电子表格摘要
   │   └── settings/             # 用户设置（DuckDB）
   │       └── settings.db
   ├── .env                      # 环境配置
@@ -67,7 +74,7 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 |------|------|--------|------|
 | `query` | `string` | *必填* | 搜索查询或问题 |
 | `paths` | `string \| string[]` | *可选* | 要搜索的目录或文件；未设置时依次回退到 `SIRCHMUNK_SEARCH_PATHS`、当前工作目录 |
-| `mode` | `string` | `FAST` | `FAST`（贪心搜索，2-5s）、`DEEP`（蒙特卡洛采样，10-30s）或 `FILENAME_ONLY` |
+| `mode` | `string` | `FAST` | `FAST`（贪心搜索，2-5s）、`DEEP`（智能体检索，10-30s）或 `FILENAME_ONLY` |
 | `max_depth` | `int` | `null` | 最大目录深度 |
 | `top_k_files` | `int` | `null` | 返回的文件数量 |
 | `enable_dir_scan` | `bool` | `true` | 是否启用目录扫描 |

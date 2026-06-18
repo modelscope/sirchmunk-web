@@ -18,6 +18,8 @@ Sirchmunk's architecture is organized into cleanly separated layers, following t
 | **EvidenceProcessor** | Evidence processing based on the Monte Carlo Importance Sampling         |
 | **GrepRetriever**     | High-performance _indexless_ file search with parallel processing        |
 | **OpenAIChat**        | Unified LLM interface supporting streaming and usage tracking            |
+| **KnowledgeCompiler** | Offline document compilation into tree indices and knowledge clusters (Beta) |
+| **KnowledgeLint**     | Knowledge health checks and auto-repair                                  |
 | **MonitorTracker**    | Real-time system and application metrics collection                      |
 
 ## Multi-Phase Search Pipeline
@@ -166,6 +168,13 @@ All persistent data is stored in the configured `SIRCHMUNK_WORK_PATH` (default: 
     │   └── chat_history.db
     ├── knowledge/            # Knowledge clusters (Parquet)
     │   └── knowledge_clusters.parquet
+    ├── compile/              # Compile artifacts (Beta)
+    │   ├── manifest.json     # File manifest with hashes
+    │   ├── document_catalog.json
+    │   ├── summary_index.json
+    │   ├── trees/            # Hierarchical tree indices
+    │   ├── table_digests/    # Table extraction digests
+    │   └── xlsx_digests/     # Spreadsheet digests
     └── settings/             # User settings (DuckDB)
         └── settings.db
 ```

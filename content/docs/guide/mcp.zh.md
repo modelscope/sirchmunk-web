@@ -89,7 +89,7 @@ sirchmunk mcp serve --transport http --port 3000
 | 模式 | 描述 | 需要 LLM |
 |------|------|:--------:|
 | **FAST** | 贪心搜索，两级关键词级联 + early stopping（2-5s，速度约为 DEEP 的 10 倍） | 是 |
-| **DEEP** | 蒙特卡洛证据采样完整多阶段分析（10-30s） | 是 |
+| **DEEP** | 智能体检索全面分析，支持自纠正（10-30s） | 是 |
 | **FILENAME_ONLY** | 文件名搜索，无内容分析 | 否 |
 
 ## OpenClaw 集成

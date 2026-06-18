@@ -58,7 +58,7 @@ sirchmunk search "How does authentication work?"
 # 在指定路径中搜索
 sirchmunk search "find all API endpoints" ./src ./docs
 
-# DEEP 模式：蒙特卡洛证据采样全面分析
+# DEEP 模式：智能体检索全面分析
 sirchmunk search "数据库架构" --mode DEEP
 
 # 快速文件名搜索（无需 LLM）
@@ -103,6 +103,45 @@ sirchmunk mcp serve
 sirchmunk mcp serve --transport http --port 3000
 ```
 
+### `sirchmunk compile`（Beta）
+
+将文档集预处理为层次化树索引和知识簇。这是一个**可选**步骤 — 无需编译即可搜索，但编译产物可显著提升大型文档集的检索精度。
+
+```bash
+# 编译文档（默认增量模式）
+sirchmunk compile --paths /path/to/documents
+
+# 全量重新编译（忽略缓存）
+sirchmunk compile --paths /path/to/documents --full
+
+# 浅层模式（跳过树索引，更快）
+sirchmunk compile --paths /path/to/documents --shallow
+
+# 查看编译状态
+sirchmunk compile --paths /path/to/documents --status
+
+# 运行知识健康检查
+sirchmunk compile --lint --work-path ~/.sirchmunk
+
+# 自动修复检查问题
+sirchmunk compile --lint --fix --work-path ~/.sirchmunk
+```
+
+| 选项 | 描述 |
+|------|------|
+| `--paths` | 要编译的目录或文件（必填） |
+| `--full` | 强制全量重编译，忽略增量缓存 |
+| `--shallow` | 跳过树索引，仅使用 LLM 直接摘要（更快） |
+| `--max-files` | 最大处理文件数（超出时触发重要性采样） |
+| `--concurrency` | 最大并行编译数（默认：3） |
+| `--status` | 显示编译状态而非执行编译 |
+| `--lint` | 运行知识健康检查 |
+| `--fix` | 自动修复检查问题（需配合 `--lint`） |
+| `--work-path` | 工作目录（默认：`~/.sirchmunk`） |
+
+> [!NOTE]
+> 编译产物会被搜索管线自动检测 — 编译完成后无需额外配置。当不存在编译产物时，搜索会回退到标准检索管线。
+
 ### `sirchmunk version`
 
 显示版本信息。
@@ -119,6 +158,7 @@ sirchmunk mcp version
 | `sirchmunk init` | 初始化工作目录、.env 和 MCP 配置 |
 | `sirchmunk serve` | 启动后端 API 服务器 |
 | `sirchmunk search` | 执行搜索查询 |
+| `sirchmunk compile` | 将文档编译为知识索引 **（Beta）** |
 | `sirchmunk web init` | 构建 WebUI 前端（需要 Node.js 18+） |
 | `sirchmunk web serve` | 启动 API + WebUI（单端口） |
 | `sirchmunk web serve --dev` | 启动 API + Next.js 开发服务器（热重载） |

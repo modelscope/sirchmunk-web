@@ -34,7 +34,7 @@ async def main():
         paths=["/path/to/documents"],
     )
 
-    # DEEP mode: comprehensive analysis with Monte Carlo sampling, 10-30s
+    # DEEP mode: comprehensive agentic retrieval analysis, 10-30s
     result_deep: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
@@ -111,7 +111,9 @@ for usage in searcher.llm_usages:
 
 Sirchmunk works with any OpenAI-compatible API endpoint:
 
-- **OpenAI** — GPT-4, GPT-4o, GPT-3.5
+- **OpenAI** — GPT-4, GPT-4o, GPT-5.2
+- **MiniMax** — MiniMax-M2.7, MiniMax-M2.7-highspeed
+- **DeepSeek** — DeepSeek-V3, DeepSeek-R1 and other DeepSeek chat models
 - **Local models** — Ollama, llama.cpp, vLLM, SGLang
 - **Claude** — Via API proxy
 - **Any OpenAI-compatible endpoint**

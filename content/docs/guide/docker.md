@@ -9,14 +9,14 @@ Pre-built Docker images are available on Alibaba Cloud Container Registry for qu
 
 | Region | Image |
 |---|---|
-| US West | `modelscope-registry.us-west-1.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6` |
-| China Beijing | `modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6` |
+| US West | `modelscope-registry.us-west-1.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.7` |
+| China Beijing | `modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.7` |
 
 ## Quick Start
 
 ```bash
 # Pull the image
-docker pull modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6
+docker pull modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.7
 
 # Start the service
 docker run -d \
@@ -35,7 +35,7 @@ docker run -d \
   -e SIRCHMUNK_SEARCH_PATHS=/mnt/docs \
   -v /path/to/your_work_path:/data/sirchmunk \
   -v /path/to/your/docs:/mnt/docs:ro \
-  modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.6
+  modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/sirchmunk:ubuntu22.04-py312-0.0.7
 ```
 
 Open http://localhost:8584 to access the WebUI, or call the API directly:

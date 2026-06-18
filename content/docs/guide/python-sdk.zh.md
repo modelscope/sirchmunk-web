@@ -34,7 +34,7 @@ async def main():
         paths=["/path/to/documents"],
     )
 
-    # DEEP 模式：蒙特卡洛证据采样全面分析，10-30s
+    # DEEP 模式：智能体检索全面分析，10-30s
     result_deep: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
