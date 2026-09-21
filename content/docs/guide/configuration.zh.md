@@ -15,7 +15,7 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 |------|------|--------|
 | `LLM_API_KEY` | LLM API 密钥（FAST 和 DEEP 模式必需） | — |
 | `LLM_BASE_URL` | OpenAI 兼容 API 基础 URL | `https://api.openai.com/v1` |
-| `LLM_MODEL` | 使用的模型名称 | `gpt-4o` |
+| `LLM_MODEL_NAME` | 使用的模型名称 | `gpt-5.2` |
 
 ### 搜索配置
 
@@ -26,7 +26,18 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 | `SIRCHMUNK_MAX_DEPTH` | 最大目录遍历深度 | `10` |
 | `SIRCHMUNK_TOP_K_FILES` | 分析的最大文件数 | `20` |
 | `SIRCHMUNK_MAX_CONCURRENT_SEARCHES` | 最大并发搜索任务数 | `3` |
-| `SIRCHMUNK_ENABLE_CLUSTER_REUSE` | 启用知识簇复用 | `false` |
+| `SIRCHMUNK_ENABLE_CLUSTER_REUSE` | 启用知识簇复用 | `true` |
+
+### 检索成本配置
+
+| 变量 | 描述 | 默认值 |
+|------|------|--------|
+| `GREP_MAX_FILESIZE_MB` | 单文件大小上限（MB）；超过此限制的文件在查询热路径上被跳过 | `64` |
+| `GREP_RGA_ADAPTERS` | 允许的 rga 适配器（仅有界的；查询热路径禁用归档解压） | `poppler,pandoc,postprocpagebreaks` |
+| `GREP_TIERED_SCAN` | 启用分层扫描：快速原生 rg 扫描 + 有界 rga 富格式扫描 | `true` |
+| `GREP_TEXT_TIMEOUT` | 原生 rg 文本扫描超时（秒） | `15.0` |
+| `GREP_TIMEOUT` | rga 富格式扫描超时（秒） | `60.0` |
+| `GREP_RICH_EXTENSIONS` | 路由到 rga 富格式扫描的文件扩展名 | `pdf,docx,epub,odt` |
 
 ### 对话配置
 
@@ -74,7 +85,7 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 |------|------|--------|------|
 | `query` | `string` | *必填* | 搜索查询或问题 |
 | `paths` | `string \| string[]` | *可选* | 要搜索的目录或文件；未设置时依次回退到 `SIRCHMUNK_SEARCH_PATHS`、当前工作目录 |
-| `mode` | `string` | `FAST` | `FAST`（贪心搜索，2-5s）、`DEEP`（智能体检索，10-30s）或 `FILENAME_ONLY` |
+| `mode` | `string` | `DEEP` | `DEEP`（预算约束的证据探索智能体检索）、`FAST`（贪心搜索，2-5s）或 `FILENAME_ONLY` |
 | `max_depth` | `int` | `null` | 最大目录深度 |
 | `top_k_files` | `int` | `null` | 返回的文件数量 |
 | `enable_dir_scan` | `bool` | `true` | 是否启用目录扫描 |
@@ -82,7 +93,7 @@ Sirchmunk 通过存储在 `.env` 文件中的环境变量进行配置。运行 `
 | `max_token_budget` | `int` | `null` | DEEP 模式 token 预算（未设置时默认 128K） |
 | `include_patterns` | `string[]` | `null` | 要包含的文件 glob 模式 |
 | `exclude_patterns` | `string[]` | `null` | 要排除的文件 glob 模式 |
-| `return_context` | `bool` | `false` | 返回包含知识簇与遥测的 SearchContext |
+| `response_format` | `string` | `rich` | `"rich"` Markdown 报告、`"minimal"` 简短回答、`"context"` SearchContext 对象、`"json"` 序列化上下文 |
 
 > [!NOTE]
-> `FILENAME_ONLY` 模式不需要 LLM API 密钥。`FAST` 和 `DEEP` 模式需要配置 LLM。`FAST` 模式采用贪心策略，结合两级关键词级联与 early stopping，速度约为 `DEEP` 模式的 **10 倍**。
+> `FILENAME_ONLY` 模式不需要 LLM API 密钥。`FAST` 和 `DEEP` 模式需要配置 LLM。默认模式为 `DEEP`，执行多路检索的预算约束证据探索。

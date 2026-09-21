@@ -18,6 +18,8 @@ image:
 
 With the evolution of RAG (Retrieval-Augmented Generation) technology, a new paradigm called **In-Context Search (ICS)** is redefining how LLMs interact with external knowledge. This post compares traditional Graph-based RAG with next-generation ICS approaches represented by **[PageIndex](https://github.com/VectifyAI/PageIndex)** and **[Sirchmunk](https://github.com/modelscope/sirchmunk)**.
 
+**Update (September 2026):** The theoretical foundations described in this article have been formalized in our research paper: [LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents](https://arxiv.org/abs/2608.16185) (arXiv:2608.16185).
+
 <!--more-->
 
 ### Abstract
@@ -47,8 +49,8 @@ The industry is now pivoting toward **In-Context Search (ICS)**. In this paradig
 | Dimension | **LightRAG** (Advanced Graph-RAG) | **PageIndex** (Reasoning-based ICS) | **Sirchmunk** (Indexless / Self-Evolving) |
 | --- | --- | --- |-------------------------------------------|
 | **Architectural Philosophy** | Index-Centric (Graph Topologies) | Reasoning-Centric (Hierarchical ICS) | Agile-Centric (Raw Search & Evolution)    |
-| **Primary Mechanism** | Dual-level Graph Traversal | Agentic Tree Navigation | Greedy Cascade (FAST) / Monte Carlo Sampling (DEEP) |
-| **Retrieval Depth** | Global & Local via Graph Edges | Structural Pathfinding | Statistical Importance Extraction         |
+| **Primary Mechanism** | Dual-level Graph Traversal | Agentic Tree Navigation | Multi-path DEEP Retrieval (5 paths) / Greedy Cascade (FAST) |
+| **Retrieval Depth** | Global & Local via Graph Edges | Structural Pathfinding | Confidence-weighted RRF Fusion + Statistical Importance Extraction |
 | **Indexing Overhead** | High (Graph Construction) | Moderate (Tree Metadata) | **Minimal to Zero**                       |
 | **Context Fidelity** | High (Entity-Relationship) | **Maximum** (Structural Integrity) | **Full Fidelity** (Raw Data Access)       |
 | **Data Freshness** | Low (Re-indexing required) | Moderate (Incremental updates) | **Real-time** (Direct File Access)        |
@@ -101,9 +103,9 @@ PageIndex implements an **Agentic Loop** that mimics human research patterns—n
 
 Sirchmunk represents the **"Agile Hunter"** philosophy in the In-Context Search (ICS) landscape. It prioritizes **data freshness** and **operational speed**, completely bypassing the static tree-building phase. Instead, it treats the file system as a live, queryable environment, leveraging statistical mechanics and agentic reflection.
 
-Sirchmunk operates in two distinct search modes. **FAST mode** (default) employs a greedy strategy with 2-level keyword cascade and context-window sampling, achieving retrieval in 2–5 seconds with only 2 LLM calls — a **~10x speedup** over the comprehensive mode. **DEEP mode** activates the full Monte Carlo evidence sampling pipeline with multi-round ReAct refinement for maximum recall on complex queries (10–30 seconds).
+Sirchmunk operates in two distinct search modes. **FAST mode** employs a greedy strategy with 2-level keyword cascade and context-window sampling, achieving retrieval in 2–5 seconds with only 2 LLM calls — a **~10x speedup** over the comprehensive mode. **DEEP mode** (default since v0.1.0) runs five complementary retrieval paths (lexical, entity, directory, structural, topic-graph) fused via confidence-weighted Reciprocal Rank Fusion, followed by Monte Carlo evidence sampling and multi-round ReAct refinement for maximum recall on complex queries (10–30 seconds).
 
-As of v0.0.6post1, Sirchmunk also ships as an OpenClaw skill — enabling any OpenClaw-compatible agent to invoke its search capability via natural language. From v0.0.6 onward, the stack further includes **multi-turn conversation** with context management, **document summarization**, and **cross-lingual retrieval** alongside the FAST/DEEP search modes above.
+As of v0.2.0, Sirchmunk also ships as an OpenClaw skill — enabling any OpenClaw-compatible agent to invoke its search capability via natural language. The stack includes **multi-turn conversation** with context management, **document summarization**, and **cross-lingual retrieval** alongside the FAST/DEEP search modes above.
 
 ---
 
@@ -155,7 +157,20 @@ Sirchmunk utilizes a "Post-hoc Indexing" strategy. It doesn't index before you a
 | **Just-in-Time Indexing** | Builds a dynamic map of data based on actual usage patterns. | Python-Native |
 | **Knowledge Reuse** | Hits the cache for similar future queries, evolving from brute-force to high-speed retrieval. | DuckDB SQL |
 
-Through this mechanism, Sirchmunk evolves from a "brute-force hunter" into a "sophisticated librarian" organically, without the maintenance overhead of traditional pre-indexed databases.
+Through this mechanism, Sirchmunk evolves from a “brute-force hunter” into a “sophisticated librarian” organically, without the maintenance overhead of traditional pre-indexed databases.
+
+---
+
+### 3.5 Experimental Validation
+
+The LENS framework’s effectiveness has been validated through rigorous controlled evaluation:
+
+| Setting | LENS (Sirchmunk DEEP) | ReAct Baseline |
+| --- | --- | --- |
+| **500-question controlled eval** | 62.4% EM, 84.8% evidence recall | 65.2% EM, 50.4% evidence recall |
+| **150-question fullwiki** (raw Wikipedia, zero indexing) | 43.3% EM, 84.0% evidence recall | 42.7% EM, 70.7% evidence recall |
+
+These results reveal a key insight: LENS trades a small margin on headline accuracy for dramatically better evidence grounding. In the fullwiki setting — where no indexing or preprocessing is performed — LENS achieves comparable EM while providing 13+ percentage points more evidence recall, validating the source-fidelity claims of the in-context search paradigm.
 
 ---
 
@@ -231,7 +246,8 @@ The era of treating RAG as a static database lookup is ending. By embracing **In
 1. Lewis, P., Perez, E., Piktus, A., et al. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.* NeurIPS 2020. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
 2. Guo, Z., Qian, C., et al. (2024). *LightRAG: Simple and Fast Retrieval-Augmented Generation.* [arXiv:2410.05779](https://arxiv.org/abs/2410.05779) | [GitHub](https://github.com/HKUDS/LightRAG)
 3. VectifyAI. (2025). *PageIndex: Extracting and Understanding Financial Reports with LLM.* [GitHub](https://github.com/VectifyAI/PageIndex)
-4. ModelScope. (2025). *Sirchmunk: An Embedding-Free, Agentic Search Engine for Raw Data.* [GitHub](https://github.com/modelscope/sirchmunk)
-5. Yao, S., Zhao, J., Yu, D., et al. (2023). *ReAct: Synergizing Reasoning and Acting in Language Models.* ICLR 2023. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
-6. Anthropic. (2024). *Model Context Protocol (MCP) Specification.* [Documentation](https://modelcontextprotocol.io)
-7. Kaddour, J., Harris, J., Mozes, M., et al. (2023). *Challenges and Applications of Large Language Models.* [arXiv:2307.10169](https://arxiv.org/abs/2307.10169)
+4. ModelScope. (2026). *Sirchmunk: An Embedding-Free, Agentic Search Engine for Raw Data.* [GitHub](https://github.com/modelscope/sirchmunk)
+5. Wang, X., et al. (2026). *LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents.* [arXiv:2608.16185](https://arxiv.org/abs/2608.16185)
+6. Yao, S., Zhao, J., Yu, D., et al. (2023). *ReAct: Synergizing Reasoning and Acting in Language Models.* ICLR 2023. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
+7. Anthropic. (2024). *Model Context Protocol (MCP) Specification.* [Documentation](https://modelcontextprotocol.io)
+8. Kaddour, J., Harris, J., Mozes, M., et al. (2023). *Challenges and Applications of Large Language Models.* [arXiv:2307.10169](https://arxiv.org/abs/2307.10169)

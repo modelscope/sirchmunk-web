@@ -22,23 +22,23 @@ from sirchmunk.llm import OpenAIChat
 llm = OpenAIChat(
     api_key="your-api-key",
     base_url="your-base-url",   # e.g., https://api.openai.com/v1
-    model="your-model-name"     # e.g., gpt-4o
+    model="your-model-name"     # e.g., gpt-5.2
 )
 
 async def main():
     searcher = AgenticSearch(llm=llm)
 
-    # FAST mode (default): greedy search, 2 LLM calls, 2-5s
+    # DEEP mode (default): rich Markdown report with budgeted evidence exploration
     result: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
     )
 
-    # DEEP mode: comprehensive agentic retrieval analysis, 10-30s
-    result_deep: str = await searcher.search(
+    # FAST mode: greedy search, 2 LLM calls, 2-5s
+    result_fast: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
-        mode="DEEP",
+        mode="FAST",
     )
 
     print(result)
@@ -60,13 +60,13 @@ asyncio.run(main())
 result = await searcher.search(
     query="database connection pooling",        # Required: search question
     paths=["/path/to/project/src"],             # Optional: directories (env, then cwd)
-    mode="FAST",                                # FAST (default), DEEP, or FILENAME_ONLY
+    mode="DEEP",                                # DEEP (default), FAST, or FILENAME_ONLY
     max_depth=10,                               # Max directory depth
     top_k_files=20,                             # Number of top files
     max_loops=10,                               # Max search loops
     include_patterns=["*.py", "*.java"],        # File patterns to include
     exclude_patterns=["*test*", "*__pycache__*"], # Patterns to exclude
-    return_context=True,                        # Return full SearchContext
+    response_format="context",                   # Return format: rich, minimal, context, json
 )
 ```
 
@@ -87,7 +87,7 @@ print(result)
 result = await searcher.search(
     query="...",
     paths=["..."],
-    return_context=True,
+    response_format="context",
 )
 
 # Access context metadata
@@ -111,9 +111,12 @@ for usage in searcher.llm_usages:
 
 Sirchmunk works with any OpenAI-compatible API endpoint:
 
-- **OpenAI** — GPT-4, GPT-4o, GPT-5.2
-- **MiniMax** — MiniMax-M2.7, MiniMax-M2.7-highspeed
+- **OpenAI** — GPT-4o, GPT-5.2
+- **MiniMax** — MiniMax-M3, MiniMax-M2.7, MiniMax-M2.7-highspeed
 - **DeepSeek** — DeepSeek-V3, DeepSeek-R1 and other DeepSeek chat models
+- **Google Gemini**, **Zhipu (GLM)**, **Baichuan**, **Yi**, **SiliconFlow**, **Volcengine**
+- **Moonshot**, **Mistral**, **Groq**, **Together AI**, **Cohere**
+- **Azure OpenAI**
 - **Local models** — Ollama, llama.cpp, vLLM, SGLang
 - **Claude** — Via API proxy
 - **Any OpenAI-compatible endpoint**

@@ -17,10 +17,10 @@ sections:
         url: docs/getting-started/
         icon: rocket-launch
       secondary_action:
-        text: Read the Technical Report
-        url: blog/technical-deep-dive/
+        text: Read the Paper
+        url: https://arxiv.org/abs/2608.16185
       announcement:
-        text: "Sirchmunk v0.0.8 — Knowledge Compile (Beta), DEEP Mode Generalization & I/O Optimization"
+        text: "Sirchmunk v0.2.0 — LENS Paper on arXiv · Multi-Path DEEP Retrieval · Large Corpus Robustness"
         link:
           text: "View all releases"
           url: "https://github.com/modelscope/sirchmunk/releases"
@@ -62,22 +62,22 @@ sections:
       items:
         - name: Embedding-Free Retrieval
           icon: magnifying-glass
-          description: "Work directly with raw data. No vector database, no pre-indexing, no ETL pipeline. Just drop your files and search immediately."
+          description: "Work directly with raw data — no vector database, no pre-indexing, no ETL pipeline. Drop your files and search immediately with full source fidelity."
         - name: Self-Evolving Knowledge
           icon: arrow-path
-          description: "Knowledge clusters compound with every search. The system learns and improves over time, delivering faster and richer results."
-        - name: Monte Carlo Evidence Sampling
+          description: "Every search produces a reusable KnowledgeCluster. Clusters merge, broaden, and form meta-communities over time — the system literally gets smarter as you use it."
+        - name: "LENS: Latent Evidence Exploration"
           icon: chart-bar
-          description: "Strategically sample documents using exploration-exploitation methods. Extract precise evidence without reading entire files."
-        - name: ReAct Agent Fallback
+          description: "Budgeted evidence localization over a query-conditioned latent evidence space. The LENS framework locates source-grounded evidence from raw dynamic documents under explicit cost constraints."
+        - name: Multi-Path DEEP Retrieval
           icon: cpu-chip
-          description: "When standard retrieval falls short, an autonomous ReAct agent iteratively explores alternative strategies until answers are found."
+          description: "Parallel lexical, entity, directory, structural, and topic-graph retrieval routes fused by confidence-weighted RRF — with soft route-collapse for high-confidence single-file lookups."
+        - name: Large Corpus Robustness
+          icon: shield-check
+          description: "Bounded per-file and per-query retrieval cost: tiered rg-first scan, adapter whitelist, file-size cap, per-file match limits, and hard token budgets keep huge corpora fast."
         - name: Multi-Surface Integration
           icon: globe-alt
-          description: "MCP protocol, OpenClaw skill, REST API, WebSocket real-time chat, CLI, and a modern Web UI — all built in."
-        - name: Token-Efficient Design
-          icon: bolt
-          description: "LLM inference triggered only when necessary. Monte Carlo sampling and knowledge reuse minimize costs while maximizing intelligence."
+          description: "MCP protocol, OpenClaw skill, REST API, WebSocket real-time chat, CLI, and a modern Web UI with knowledge graph visualization — all built in."
   - block: cta-card
     content:
       title: "Start Searching with Sirchmunk"

@@ -14,6 +14,10 @@ Get help and connect with the Sirchmunk community. We welcome contributions, que
 - View the [Sirchmunk Documentation](/docs/)
 - Read the [Technical Deep Dive](/blog/technical-deep-dive/)
 
+## Research Paper {#paper}
+
+- [LENS Paper (arXiv:2608.16185)](https://arxiv.org/abs/2608.16185) — *LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents* — the research paper behind Sirchmunk's core algorithm.
+
 ## Source Code {#source}
 
 - [Sirchmunk on GitHub](https://github.com/modelscope/sirchmunk) — Star the repo and follow development

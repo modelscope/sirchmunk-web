@@ -76,4 +76,7 @@ print(response.json())
 | `SIRCHMUNK_MAX_CONCURRENT_SEARCHES` | 最大并发搜索任务数 | `3` |
 
 > [!TIP]
+> 镜像标签 `ubuntu22.04-py312-0.0.7` 是截至撰写时最新的预构建镜像。请查看 [阿里云容器镜像服务](https://cr.console.aliyun.com/) 或 [Sirchmunk README](https://github.com/modelscope/sirchmunk#-docker-deployment) 获取最新可用标签。
+
+> [!TIP]
 > 完整 Docker 参数和高级用法，请参阅 Sirchmunk 仓库中的 [docker/README.md](https://github.com/modelscope/sirchmunk/blob/main/docker/README.md)。

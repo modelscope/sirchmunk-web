@@ -61,11 +61,25 @@ Sirchmunk's design philosophy rests on three pillars:
 
 ![Sirchmunk Architecture](Sirchmunk_Architecture.png "Fig. 1 — Sirchmunk high-level architecture. The system is organized into cleanly separated layers: an Integration layer for external surfaces, an Orchestration layer for the search pipeline, an Intelligence layer for evidence extraction and knowledge synthesis, and a Storage layer for persistence.")
 
+## 3.5 LENS Framework
+
+![LENS Framework](Sirchmunk_LENS_Framework.png "Fig. 1b — LENS reframes in-context search as budgeted evidence exploration over a latent evidence space induced by dynamic raw documents.")
+
+The theoretical foundations of Sirchmunk's retrieval engine are formalized in the LENS framework — **Latent Evidence Navigation and Search** — published as ["LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents"](https://arxiv.org/abs/2608.16185) (arXiv:2608.16185).
+
+LENS formulates in-context search as **Budgeted Evidence Localization**: given a query and a raw-document corpus, the system maintains a query-conditioned belief over a latent evidence space and iteratively refines it through:
+
+- **Proposal policies**: Candidate evidence regions are nominated by multiple retrieval strategies (lexical, entity, directory, structural, topic-graph).
+- **LLM relevance oracle**: Each candidate is evaluated by the LLM, updating the belief state.
+- **Budget-aware stopping**: The system halts when the evidence is deemed sufficient or the token budget is exhausted.
+
+Key experimental results: 62.4% Exact Match with 84.8% evidence recall on a 500-question controlled evaluation; 43.3% EM on a raw Wikipedia dump (fullwiki) with zero indexing — demonstrating competitive quality under strict source-fidelity constraints.
+
 ## 4. Core Search Pipeline
 
 At the heart of Sirchmunk is a multi-phase search pipeline. The core design principle is **maximum parallelism within each phase** combined with **strict phase dependencies** between them. This achieves both speed and correctness: independent tasks race concurrently, while each phase builds on the converged output of the previous one.
 
-Sirchmunk supports two search modes: **FAST mode** (default) uses a greedy strategy with 2-level keyword cascade, context-window sampling, and early stopping — completing retrieval in 2–5 seconds with only 2 LLM calls (~10x faster than DEEP mode). **DEEP mode** activates the full pipeline described below, including Monte Carlo evidence sampling and multi-round ReAct refinement, for maximum recall on complex queries (10–30 seconds).
+Sirchmunk supports two search modes: **FAST mode** uses a greedy strategy with 2-level keyword cascade, context-window sampling, and early stopping — completing retrieval in 2–5 seconds with only 2 LLM calls (~10x faster than DEEP mode). **DEEP mode** (default since v0.1.0) activates the full pipeline described below, including multi-path retrieval (lexical, entity, directory, structural, topic-graph) fused via confidence-weighted Reciprocal Rank Fusion (RRF), Monte Carlo evidence sampling, and multi-round ReAct refinement, for maximum recall on complex queries (10–30 seconds). A soft route-collapse mechanism dynamically disables low-yield paths when a single path produces a high-confidence match.
 
 ```text
 Query
@@ -263,6 +277,8 @@ Clusters do not exist in isolation. Two types of semantic edges weave them into 
 - **Weak semantic edges**: Lightweight, weighted connections that indicate topical relatedness.
 - **Rich cognitive edges**: Typed relationships (Pathway, Barrier, Analogy, Shortcut, Resolution) that model how insights relate to each other at a deeper level — enabling future capabilities like cognitive graph navigation and chain-of-thought retrieval.
 
+The Web UI now includes an **interactive Knowledge Graph visualization** powered by Cytoscape.js. Users can explore the cluster topology, filter by lifecycle states, and trace semantic relationships — making the system's evolving intelligence tangible and inspectable.
+
 > **Design insight:** By modeling knowledge with lifecycle states and abstraction levels, Sirchmunk treats its knowledge base as a living organism rather than a dead archive. Knowledge can be born, grow, and eventually retire — mirroring how human expertise evolves.
 
 ## 9. Storage & Persistence Philosophy
@@ -283,7 +299,7 @@ Each knowledge cluster's embedding vector (384 dimensions) is stored alongside t
 
 ## 10. Integration Layer: MCP, OpenClaw, API & Beyond
 
-Sirchmunk is designed to be **consumed, not deployed**. Rather than requiring users to build applications around it, it exposes its intelligence through multiple standard interfaces — meeting users where they already work. **As of v0.0.6post1**, Sirchmunk is also published as an **OpenClaw skill**, so any OpenClaw-compatible agent can invoke its search workflow via natural language alongside MCP-native and HTTP clients.
+Sirchmunk is designed to be **consumed, not deployed**. Rather than requiring users to build applications around it, it exposes its intelligence through multiple standard interfaces — meeting users where they already work. **As of v0.2.0**, Sirchmunk is also published as an **OpenClaw skill**, so any OpenClaw-compatible agent can invoke its search workflow via natural language alongside MCP-native and HTTP clients.
 
 ### Model Context Protocol (MCP)
 
@@ -334,7 +350,7 @@ Sirchmunk represents a paradigm shift in how we think about retrieval-augmented 
 
 ---
 
-*This technical report was generated by analyzing the Sirchmunk source code (v0.0.6post1).*
+*This technical report was generated by analyzing the Sirchmunk source code (v0.2.0).*
 *[github.com/modelscope/sirchmunk](https://github.com/modelscope/sirchmunk) · [ModelScope](https://github.com/modelscope)*
 
 *Sirchmunk: Raw data to self-evolving intelligence, real-time.*

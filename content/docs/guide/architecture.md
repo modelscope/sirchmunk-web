@@ -9,13 +9,39 @@ Sirchmunk's architecture is organized into cleanly separated layers, following t
 
 ![Sirchmunk Architecture](Sirchmunk_Architecture.png "Sirchmunk high-level architecture diagram")
 
+## LENS Framework
+
+![LENS Framework](Sirchmunk_LENS_Framework.png "LENS: budgeted evidence exploration over latent evidence space")
+
+**LENS** (Latent Evidence Exploration and Search) is an index-free retrieval framework that formulates in-context search as **Budgeted Evidence Localization** over a latent evidence space induced by dynamic raw documents. Instead of pre-materializing evidence via embedding indexes or chunk stores, LENS maintains a query-conditioned belief over candidate evidence units and iteratively:
+
+1. **Proposes** candidates via complementary lexical, local, and exploratory proposal policies
+2. **Updates** the belief via an LLM relevance oracle
+3. **Narrows** toward high-posterior regions under a controllable token budget
+
+This formulation makes the search process adaptive, budget-aware, and fully grounded in source documents — without any pre-built index infrastructure.
+
+> **Paper:** [LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents](https://arxiv.org/abs/2608.16185) (arXiv 2026)
+
+## Knowledge Graph
+
+![Knowledge Graph](Sirchmunk_Knowledge_Graph.png "Interactive knowledge cluster visualization")
+
+The **Knowledge Graph** provides an interactive visualization of self-evolving knowledge clusters built incrementally from search interactions. Powered by Cytoscape.js, it displays:
+
+- **Cluster relationships** — semantic edges linking related knowledge units
+- **Lifecycle states** — visual encoding of Emerging → Stable → Deprecated transitions
+- **Leiden meta-clustering** — higher-level community structure discovered via the Leiden algorithm
+
+Users can explore, filter, and drill into clusters directly from the Web UI.
+
 ## Core Components
 
 | Component             | Description                                                              |
 |:----------------------|:-------------------------------------------------------------------------|
-| **AgenticSearch**     | Search orchestrator with LLM-enhanced retrieval capabilities             |
-| **KnowledgeBase**     | Transforms raw results into structured knowledge clusters with evidences |
-| **EvidenceProcessor** | Evidence processing based on the Monte Carlo Importance Sampling         |
+| **AgenticSearch**     | Search orchestrator with FAST / DEEP / FILENAME_ONLY modes and budget-aware evidence localization |
+| **KnowledgeBase**     | Persists source-grounded evidence clusters as reusable warm priors for later queries |
+| **EvidenceProcessor** | Consolidates candidate regions into compact, traceable evidence units     |
 | **GrepRetriever**     | High-performance _indexless_ file search with parallel processing        |
 | **OpenAIChat**        | Unified LLM interface supporting streaming and usage tracking            |
 | **KnowledgeCompiler** | Offline document compilation into tree indices and knowledge clusters (Beta) |
@@ -34,28 +60,35 @@ This is not merely a cache — it is the beginning of knowledge *compounding*. E
 
 ### Phase 1 — Parallel Probing
 
-Four independent probes launch concurrently to gather diverse signals:
+Multiple independent probes launch concurrently to gather diverse signals:
 
-1. **LLM Keyword Extraction** — The LLM decomposes the query into multi-level keywords, from coarse (high recall) to fine (high precision), each annotated with an estimated rarity score. This multi-granularity approach ensures that both broad topics and specific terms are captured.
-2. **Directory Structure Scan** — The file system is traversed to collect path metadata: file names, sizes, modification times, and content previews. This is the foundation for *intelligent inference* — using structural cues (naming conventions, directory hierarchy, file types) to narrow down the most promising candidates before ever reading their content.
+1. **LLM Keyword Extraction** — The LLM decomposes the query into multi-level keywords, from coarse (high recall) to fine (high precision), each annotated with an estimated rarity score.
+2. **Directory Structure Scan** — The file system is traversed to collect path metadata: file names, sizes, modification times, and content previews — the foundation for *intelligent inference* using structural cues.
 3. **Knowledge Cache Lookup** — Partial match search across existing clusters for potential reuse of previously acquired knowledge.
-4. **Spec-Path Context Load** — Previously computed context for known paths is loaded from cache.
+4. **Compile Artifact Load** — Previously computed tree indices, topic maps, and summary indexes are loaded when available.
 
-### Phase 2 — Retrieval & Ranking
+### Phase 2 — Multi-Path DEEP Retrieval
 
-Two complementary strategies run in parallel:
+In v0.2.0, DEEP mode runs **5 complementary retrieval paths** in parallel:
 
-- **Content-based retrieval** — IDF-weighted keyword search through raw file contents
-- **Structure-based ranking** — LLM-guided evaluation of candidate files by metadata
+| Path | Signal |
+|:-----|:-------|
+| **Lexical** | IDF-weighted keyword search through raw file contents |
+| **Entity** | Exact-match entity lookup for named entities and identifiers |
+| **Directory** | Structure-based ranking via LLM-guided metadata evaluation |
+| **Structural** | Heuristic document tree navigation using compile artifacts |
+| **Topic-Graph** | Cross-document topic-map traversal for multi-hop discovery |
 
-### Phase 3 — Knowledge Cluster Construction
+Results from all paths are fused via **confidence-weighted Reciprocal Rank Fusion (RRF)**. A **soft route collapse** mechanism dynamically disables low-yield paths — when a single path achieves high confidence with strong margin, the remaining paths are collapsed to cut latency and tokens while preserving answer quality.
 
-Results are merged, deduplicated, and processed through Monte Carlo evidence sampling. The LLM synthesizes evidence fragments into structured Knowledge Clusters.
+### Phase 3 — Evidence Localization & Cluster Construction
+
+Results are merged, deduplicated, and processed through budgeted evidence localization. The LLM synthesizes evidence fragments into structured Knowledge Clusters.
 
 ### Phase 4 — Summarization or ReAct Refinement
 
-- **Evidence found** → LLM generates a structured briefing
-- **No evidence** → ReAct agent activates for iterative exploration
+- **Evidence found** → LLM generates a structured briefing with source-linked evidence
+- **No evidence** → ReAct agent activates for iterative exploration with hop-aware strategies
 
 ### Phase 5 — Persist
 
@@ -63,25 +96,25 @@ Valuable clusters are saved with their embeddings for future reuse.
 
 ## Key Algorithms
 
-### Monte Carlo Evidence Sampling
+### Budgeted Evidence Exploration
 
-Traditional retrieval systems read entire documents or rely on fixed-size chunks, leading to either wasted tokens or lost context. Sirchmunk takes a fundamentally different approach inspired by **Monte Carlo methods** — treating evidence extraction as a **sampling problem** rather than a parsing problem.
+Traditional retrieval systems read entire documents or rely on fixed-size chunks, leading to either wasted tokens or lost context. LENS instead treats the relevant evidence as **latent and query-conditioned**: the system first forms a low-cost prior over likely evidence regions, then spends LLM calls only where observations are most useful.
 
-![Monte Carlo Evidence Sampling Algorithm](Sirchmunk_MonteCarloSamplingAlgo.png "Monte Carlo Evidence Sampling: Three-act exploration–exploitation strategy")
+![Budgeted Evidence Exploration](Sirchmunk_MonteCarloSamplingAlgo.png "Budgeted evidence exploration: three-layer workflow")
 
-The algorithm operates in three phases:
+The workflow has three layers:
 
-1. **Phase 1 — Cast the Net (Exploration):** Fuzzy anchor matching combined with stratified random sampling. The system identifies seed regions of potential relevance while maintaining broad coverage through randomized probing — ensuring no high-value region is missed.
+1. **Low-cost prior:** Lexical anchors, document-path structure, compiled summaries, historical source-grounded evidence, and lightweight corpus scans narrow the candidate subspace before expensive oracle calls.
 
-2. **Phase 2 — Focus (Exploitation):** Gaussian importance sampling centered around high-scoring seeds from Phase 1. The sampling density concentrates on the most promising regions, extracting surrounding context and scoring each snippet for relevance.
+2. **Budget-constrained sequential inference:** Candidate regions are proposed, observed by an LLM relevance oracle, and used to update the belief state until the budget-aware stopping rule says the evidence is sufficient.
 
-3. **Phase 3 — Synthesize:** The top-K scored snippets are passed to the LLM, which synthesizes them into a coherent Region of Interest (ROI) summary with a confidence flag — enabling the pipeline to decide whether evidence is sufficient or a ReAct agent should be invoked for deeper exploration.
+3. **Consolidation and synthesis:** Selected regions are merged into a compact source-grounded evidence set, synthesized into an answer, and optionally persisted as reusable knowledge for follow-up queries.
 
 **Key properties:**
 
-- **Document-agnostic:** The same algorithm works equally well on a 2-page memo and a 500-page technical manual — no document-specific chunking heuristics needed.
-- **Token-efficient:** Only the most relevant regions are sent to the LLM, dramatically reducing token consumption compared to full-document approaches.
-- **Exploration-exploitation balance:** Random exploration prevents tunnel vision, while importance sampling ensures depth where it matters most.
+- **Index-free over raw documents:** Search can run directly over dynamic files without pre-materializing a persistent embedding or chunk index.
+- **Source-grounded:** The final answer is paired with traceable evidence regions instead of opaque vector hits.
+- **Budget-aware:** LLM calls are spent adaptively on uncertain or high-value evidence regions, with explicit telemetry for cost and latency.
 
 ### ReAct Agent
 
@@ -101,7 +134,7 @@ A KnowledgeCluster is a richly annotated object that captures the full cognitive
 
 | Field | Purpose |
 |:------|:--------|
-| **Evidences** | Source-linked snippets extracted via Monte Carlo sampling, each with file path, summary, and raw text |
+| **Evidences** | Source-linked evidence regions localized by LENS, each with file path, summary, and raw text |
 | **Content** | LLM-synthesized markdown with structured analysis and references |
 | **Patterns** | 3–5 distilled design principles or mechanisms identified from the evidence |
 | **Confidence** | A consensus score \[0, 1\] indicating the reliability of the cluster |
@@ -123,7 +156,7 @@ A KnowledgeCluster is a richly annotated object that captures the full cognitive
  │     ┌──────────────────────────────┐
  │     │  Phase 1–3: Full Search      │
  │     │  (keywords → retrieval →     │
- │     │   Monte Carlo → LLM synth)   │
+ │     │   evidence localization →   │
  │     └──────────┬───────────────────┘
  │                ▼
  │     ┌──────────────────────────────┐
@@ -140,7 +173,7 @@ A KnowledgeCluster is a richly annotated object that captures the full cognitive
 
 1. **Reuse Check (Phase 0):** Before any retrieval, the query is embedded and compared against all stored clusters via cosine similarity. If a high-confidence match is found, the existing cluster is returned instantly — saving LLM tokens and search time entirely.
 
-2. **Creation (Phase 1–3):** When no reuse match is found, the full pipeline runs: keyword extraction, file retrieval, Monte Carlo evidence sampling, and LLM synthesis produce a new `KnowledgeCluster`.
+2. **Creation (Phase 1–3):** When no reuse match is found, the full pipeline runs: keyword extraction, file retrieval, budgeted evidence localization, and LLM synthesis produce a new `KnowledgeCluster`.
 
 3. **Persistence (Phase 5):** The cluster is stored in an in-memory DuckDB table and periodically flushed to Parquet files. Atomic writes and mtime-based reload ensure multi-process safety.
 
@@ -190,3 +223,7 @@ Sirchmunk adheres to **SOLID principles**:
 - **Dependency Inversion** — High-level logic depends on abstractions
 
 For a comprehensive technical analysis, read the [Technical Deep Dive](/blog/technical-deep-dive/).
+
+---
+
+> **Paper:** [LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents](https://arxiv.org/abs/2608.16185) (arXiv 2026)

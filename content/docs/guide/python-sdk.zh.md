@@ -22,23 +22,23 @@ from sirchmunk.llm import OpenAIChat
 llm = OpenAIChat(
     api_key="your-api-key",
     base_url="your-base-url",   # 如 https://api.openai.com/v1
-    model="your-model-name"     # 如 gpt-4o
+    model="your-model-name"     # 如 gpt-5.2
 )
 
 async def main():
     searcher = AgenticSearch(llm=llm)
 
-    # FAST 模式（默认）：贪心搜索，2 次 LLM 调用，2-5s
+    # DEEP 模式（默认）：富文本 Markdown 报告，预算约束证据探索
     result: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
     )
 
-    # DEEP 模式：智能体检索全面分析，10-30s
-    result_deep: str = await searcher.search(
+    # FAST 模式：贪心搜索，2 次 LLM 调用，2-5s
+    result_fast: str = await searcher.search(
         query="How does transformer attention work?",
         paths=["/path/to/documents"],
-        mode="DEEP",
+        mode="FAST",
     )
 
     print(result)
@@ -57,13 +57,13 @@ asyncio.run(main())
 result = await searcher.search(
     query="database connection pooling",        # 必填：搜索问题
     paths=["/path/to/project/src"],             # 可选：省略时回退到 SIRCHMUNK_SEARCH_PATHS → cwd
-    mode="FAST",                                # FAST（默认）、DEEP 或 FILENAME_ONLY
+    mode="DEEP",                                # DEEP（默认）、FAST 或 FILENAME_ONLY
     max_depth=10,                               # 最大目录深度
     top_k_files=20,                             # 最大文件数
     max_loops=10,                               # ReAct 最大迭代次数（DEEP 模式）
     include_patterns=["*.py", "*.java"],        # 要包含的文件模式
     exclude_patterns=["*test*", "*__pycache__*"], # 要排除的文件模式
-    return_context=True,                        # 返回 SearchContext（含 KnowledgeCluster 和遥测数据）
+    response_format="context",                   # 返回格式：rich、minimal、context、json
 )
 ```
 
@@ -84,7 +84,7 @@ print(result)
 result = await searcher.search(
     query="...",
     paths=["..."],
-    return_context=True,
+    response_format="context",
 )
 
 # 访问上下文元数据
@@ -108,9 +108,12 @@ for usage in searcher.llm_usages:
 
 Sirchmunk 适用于任何 OpenAI 兼容的 API 端点：
 
-- **OpenAI** — GPT-4、GPT-4o、GPT-5.2
-- **MiniMax** — MiniMax-M2.7、MiniMax-M2.7-highspeed
+- **OpenAI** — GPT-4o、GPT-5.2
+- **MiniMax** — MiniMax-M3、MiniMax-M2.7、MiniMax-M2.7-highspeed
 - **DeepSeek** — DeepSeek-V3、DeepSeek-R1 及其他 DeepSeek 对话模型
+- **Google Gemini**、**智谱（GLM）**、**百川**、**零一万物**、**硅基流动**、**火山引擎**
+- **Moonshot**、**Mistral**、**Groq**、**Together AI**、**Cohere**
+- **Azure OpenAI**
 - **本地模型** — Ollama、llama.cpp、vLLM、SGLang
 - **Claude** — 通过 API 代理
 - **其他供应商** — 提供 OpenAI 兼容 HTTP API 的服务商

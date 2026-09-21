@@ -18,6 +18,8 @@ image:
 
 随着 RAG (Retrieval-Augmented Generation) 技术的演进，一种名为 **上下文搜索（In-Context Search, ICS）** 的新范式正在重新定义 LLM 与外部知识的交互方式。本文对比了传统 Graph-based RAG 与以 **PageIndex** 和 **Sirchmunk** 为代表的下一代 ICS 方案。
 
+**更新（2026年9月）：** 本文所述理论基础已在研究论文中形式化：[LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents](https://arxiv.org/abs/2608.16185)（arXiv:2608.16185）。
+
 
 <!--more-->
 
@@ -48,8 +50,8 @@ image:
 | 维度 | **LightRAG**（高级 Graph-RAG） | **PageIndex**（基于推理的 ICS） | **Sirchmunk**（无索引 / 自进化） |
 | --- | --- | --- |--------------------------|
 | **架构理念** | 索引中心（图拓扑） | 推理中心（层级化 ICS） | 敏捷中心（原始搜索与进化）            |
-| **核心机制** | 双层图遍历 | 智能体树导航 | 贪心级联（FAST）/ 蒙特卡洛采样（DEEP） |
-| **检索深度** | 通过图边实现全局与局部检索 | 结构化路径搜索 | 统计重要性提取                  |
+| **核心机制** | 双层图遍历 | 智能体树导航 | 多路 DEEP 检索（5 条路径）/ 贪心级联（FAST） |
+| **检索深度** | 通过图边实现全局与局部检索 | 结构化路径搜索 | 置信度加权 RRF 融合 + 统计重要性提取                  |
 | **索引开销** | 高（图构建） | 中等（树元数据） | **极低至零**                 |
 | **上下文保真度** | 高（实体-关系） | **最高**（结构完整性） | **完全保真**（原始数据直接访问）       |
 | **数据新鲜度** | 低（需重新索引） | 中等（增量更新） | **实时**（直接文件访问）           |
@@ -101,9 +103,9 @@ PageIndex 实现了一个 **智能体循环**，模拟人类的研究模式 — 
 
 Sirchmunk 代表了上下文搜索（ICS）领域的 **"敏捷猎手"** 理念。它优先保障 **数据新鲜度** 与 **操作速度**，完全跳过静态树构建阶段。它将文件系统视为一个实时可查询的环境，借助统计力学和智能体反思机制进行搜索。
 
-Sirchmunk 提供两种搜索模式。**FAST 模式**（默认）采用贪心策略，结合两级关键词级联与上下文窗口采样，仅需 2 次 LLM 调用即可在 2–5 秒内完成检索，速度约为全面模式的 **10 倍**。**DEEP 模式** 则激活完整的蒙特卡洛证据采样管线，配合多轮 ReAct 自适应推理，适用于复杂查询场景下的最大召回（10–30 秒）。
+Sirchmunk 提供两种搜索模式。**FAST 模式** 采用贪心策略，结合两级关键词级联与上下文窗口采样，仅需 2 次 LLM 调用即可在 2–5 秒内完成检索，速度约为全面模式的 **10 倍**。**DEEP 模式**（自 v0.1.0 起为默认模式）并行运行五条互补检索路径（词法、实体、目录、结构、主题图），通过置信度加权倒数排名融合，继而进行蒙特卡洛证据采样和多轮 ReAct 自适应推理，适用于复杂查询场景下的最大召回（10–30 秒）。
 
-自 v0.0.6post1 起，Sirchmunk 已发布为 OpenClaw 技能 — 任何兼容 OpenClaw 的 Agent 均可通过自然语言调用其搜索能力。自 v0.0.6 起，在 FAST/DEEP 搜索模式之上还增加了**多轮对话**与上下文管理、**文档摘要**与**跨语言检索**。
+自 v0.2.0 起，Sirchmunk 已发布为 OpenClaw 技能 — 任何兼容 OpenClaw 的 Agent 均可通过自然语言调用其搜索能力。在 FAST/DEEP 搜索模式之上还增加了**多轮对话**与上下文管理、**文档摘要**与**跨语言检索**。
 
 ---
 
@@ -155,7 +157,20 @@ Sirchmunk 采用"事后索引"策略。它不在你提问之前建索引，而�
 | **即时索引** | 根据实际使用模式动态构建数据地图。 | Python 原生 |
 | **知识复用** | 对相似的后续查询命中缓存，从暴力搜索进化为高速检索。 | DuckDB SQL |
 
-通过这一机制，Sirchmunk 从"暴力猎手"有机地进化为"精明的图书管理员"，无需传统预索引数据库的维护开销。
+通过这一机制，Sirchmunk 从“暴力猎手”有机地进化为“精明的图书管理员”，无需传统预索引数据库的维护开销。
+
+---
+
+### 3.5 实验验证
+
+LENS 框架的有效性已通过严格的受控评估验证：
+
+| 设置 | LENS（Sirchmunk DEEP） | ReAct 基线 |
+| --- | --- | --- |
+| **500 题受控评估** | 62.4% EM，84.8% 证据召回 | 65.2% EM，50.4% 证据召回 |
+| **150 题 fullwiki**（原始 Wikipedia，零索引） | 43.3% EM，84.0% 证据召回 | 42.7% EM，70.7% 证据召回 |
+
+这些结果揭示了一个关键洞察：LENS 以微小的准确率差距换取了显著更好的证据接地能力。在 fullwiki 场景中 — 不执行任何索引或预处理 — LENS 在实现可比的 EM 的同时，提供了多 13 个百分点以上的证据召回率，验证了上下文搜索范式的源保真度主张。
 
 ---
 
@@ -229,7 +244,8 @@ ICS 范式以预处理时间换取查询时的智能，这使得性能瓶颈发�
 1. Lewis, P., Perez, E., Piktus, A., 等. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.* NeurIPS 2020. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
 2. Guo, Z., Qian, C., 等. (2024). *LightRAG: Simple and Fast Retrieval-Augmented Generation.* [arXiv:2410.05779](https://arxiv.org/abs/2410.05779) | [GitHub](https://github.com/HKUDS/LightRAG)
 3. VectifyAI. (2025). *PageIndex: Extracting and Understanding Financial Reports with LLM.* [GitHub](https://github.com/VectifyAI/PageIndex)
-4. ModelScope. (2025). *Sirchmunk：一个无嵌入的、智能体驱动的原始数据搜索引擎。* [GitHub](https://github.com/modelscope/sirchmunk)
-5. Yao, S., Zhao, J., Yu, D., 等. (2023). *ReAct: Synergizing Reasoning and Acting in Language Models.* ICLR 2023. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
-6. Anthropic. (2024). *模型上下文协议（MCP）规范。* [官方文档](https://modelcontextprotocol.io)
-7. Kaddour, J., Harris, J., Mozes, M., 等. (2023). *Challenges and Applications of Large Language Models.* [arXiv:2307.10169](https://arxiv.org/abs/2307.10169)
+4. ModelScope. (2026). *Sirchmunk：一个无嵌入的、智能体驱动的原始数据搜索引擎。* [GitHub](https://github.com/modelscope/sirchmunk)
+5. Wang, X., et al. (2026). *LENS: In-Context Search via Latent Evidence Exploration over Dynamic Raw Documents.* [arXiv:2608.16185](https://arxiv.org/abs/2608.16185)
+6. Yao, S., Zhao, J., Yu, D., 等. (2023). *ReAct: Synergizing Reasoning and Acting in Language Models.* ICLR 2023. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
+7. Anthropic. (2024). *模型上下文协议（MCP）规范。* [官方文档](https://modelcontextprotocol.io)
+8. Kaddour, J., Harris, J., Mozes, M., 等. (2023). *Challenges and Applications of Large Language Models.* [arXiv:2307.10169](https://arxiv.org/abs/2307.10169)
