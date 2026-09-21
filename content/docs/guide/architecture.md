@@ -35,6 +35,8 @@ The **Knowledge Graph** provides an interactive visualization of self-evolving k
 
 Users can explore, filter, and drill into clusters directly from the Web UI.
 
+See the [Knowledge Evolution showcase](/showcase/knowledge-graph/) for an animated demonstration of how clusters evolve over time.
+
 ## Core Components
 
 | Component             | Description                                                              |
@@ -189,6 +191,19 @@ A KnowledgeCluster is a richly annotated object that captures the full cognitive
 - **Query-driven embeddings:** Cluster embeddings are derived from _queries_ rather than content, ensuring that retrieval aligns with how users actually ask questions — not how documents are written.
 - **Semantic broadening:** As diverse queries reuse the same cluster, its embedding drifts to cover a wider semantic neighborhood, naturally improving recall for related future queries.
 - **Lightweight persistence:** DuckDB in-memory + Parquet on disk — no external database infrastructure required. Background daemon sync with configurable flush intervals keeps overhead minimal.
+
+#### Knowledge Evolver
+
+![Knowledge Evolver Architecture](Knowledge_Evolver_Architecture.png "KnowledgeEvolver — Four-phase evolution cycle")
+
+Beyond per-query cluster creation and reuse, the `KnowledgeEvolver` runs a four-phase background cycle that maintains the knowledge graph as a whole:
+
+1. **Connect & Merge** — Computes pairwise similarity among buffered clusters. Clusters with similarity ≥ 0.90 are merged; those with similarity ≥ 0.60 gain inter-cluster edges, consolidating fragmented knowledge from related queries.
+2. **Refresh Edges** — Re-evaluates existing edges, pruning stale connections and updating weights based on recent co-query patterns and semantic drift.
+3. **Detect Meta Clusters** — Leiden community detection (via igraph) discovers higher-order structure — groups of clusters that form coherent knowledge communities representing emergent domain expertise.
+4. **Global Update** — Synchronizes lifecycle states across the graph: consistently reinforced clusters graduate from Emerging to Stable; orphaned or contradicted clusters move toward Deprecated.
+
+The entire cycle runs asynchronously, triggered by search activity (buffer counts and step intervals). Results persist to DuckDB + Parquet with an incremental manifest for crash recovery. The evolver never blocks the query hot path.
 
 ## Data Storage
 

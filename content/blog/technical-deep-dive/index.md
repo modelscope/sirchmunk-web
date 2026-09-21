@@ -281,6 +281,21 @@ The Web UI now includes an **interactive Knowledge Graph visualization** powered
 
 > **Design insight:** By modeling knowledge with lifecycle states and abstraction levels, Sirchmunk treats its knowledge base as a living organism rather than a dead archive. Knowledge can be born, grow, and eventually retire — mirroring how human expertise evolves.
 
+### The Knowledge Evolver
+
+![Knowledge Evolver Architecture](Knowledge_Evolver_Architecture.png "Fig. 3 — KnowledgeEvolver: four-phase background evolution cycle for knowledge graph maintenance.")
+
+While individual clusters evolve through query-driven reuse, the knowledge graph as a whole is maintained by the `KnowledgeEvolver` — a background orchestrator that runs a four-phase cycle:
+
+1. **Connect & Merge**: When new clusters accumulate in the buffer, pairwise similarity is computed. Clusters with similarity ≥ 0.90 are merged; those with similarity ≥ 0.60 gain inter-cluster edges. This consolidates fragmented knowledge from related queries.
+2. **Refresh Edges**: Existing edges are re-evaluated. Stale or weak connections are pruned, and edge weights are updated based on recent co-query patterns and semantic drift.
+3. **Detect Meta Clusters**: Leiden community detection (via igraph) discovers higher-order structure — groups of clusters that form coherent knowledge communities. These meta-clusters represent emergent domain expertise that no single query could have produced.
+4. **Global Update**: Lifecycle states are synchronized across the graph. Consistently reinforced clusters graduate from Emerging to Stable; orphaned or contradicted clusters move toward Deprecated.
+
+The entire cycle runs asynchronously, triggered by search activity (buffer counts and step intervals), and never blocks the query hot path. Results persist to DuckDB + Parquet with an incremental manifest for crash recovery.
+
+> See the [Knowledge Evolution showcase](/showcase/knowledge-graph/) for a time-lapse video demonstrating clusters evolving across 200 queries.
+
 ## 9. Storage & Persistence Philosophy
 
 Sirchmunk's storage design follows a principle we call **"fast by default, durable when it matters."** The system operates entirely in-memory during runtime for maximum speed, while a background process transparently synchronizes state to disk for durability.

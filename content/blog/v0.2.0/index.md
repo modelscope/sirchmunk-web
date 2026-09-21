@@ -69,6 +69,12 @@ Every replacement behavior is gated behind an environment switch, defaults to th
 
 The Web UI now includes an **interactive knowledge graph** powered by Cytoscape.js. The graph visualizes self-evolving knowledge clusters and their semantic relationships, including lifecycle states (Emerging, Stable, Meta) and edge weights. Users can explore, filter, and drill down into the cluster topology to understand how the system's knowledge evolves with use.
 
+Behind the visualization, the `KnowledgeEvolver` orchestrates a four-phase background evolution cycle — Connect & Merge, Refresh Edges, Detect Meta Clusters (via Leiden community detection), and Global Update — that continuously maintains and consolidates the knowledge graph without blocking queries.
+
+![Knowledge Evolver Architecture](Knowledge_Evolver_Architecture.png "KnowledgeEvolver — Four-phase evolution cycle for knowledge graph maintenance")
+
+The design philosophy is observation-driven: evolution is triggered by actual search patterns rather than pre-defined rules, and source fidelity is always preserved — the system changes how it navigates to evidence, never the evidence itself. For a full animated demonstration, see the [Knowledge Evolution showcase](/showcase/knowledge-graph/).
+
 ## Other Improvements
 
 - **Broader format coverage**: Native exact-match fallback for LOG, PPTX, and XLSX files, plus heuristic document tree v2 (including DOCX/RST) with structure anchors guiding evidence extraction.
