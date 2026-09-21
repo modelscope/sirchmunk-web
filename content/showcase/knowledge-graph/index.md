@@ -1,5 +1,5 @@
 ---
-title: "Knowledge Graph Visualization"
+title: "Self-Evolving Knowledge"
 summary: "Interactive knowledge graph powered by Cytoscape.js — visualize self-evolving knowledge clusters, their relationships, and lifecycle states."
 date: 2026-07-21
 image:
@@ -9,7 +9,7 @@ image:
 
 Sirchmunk's knowledge system is not static — it evolves. Every search interaction produces reusable knowledge clusters that merge, broaden, and form meta-communities over time. This page showcases the self-evolving knowledge architecture and its interactive visualization.
 
-## Knowledge Graph Visualization
+## Self-Evolving Knowledge
 
 ![Sirchmunk Knowledge Graph](Sirchmunk_Knowledge_Graph.png "Knowledge Graph — Interactive visualization of knowledge clusters with lifecycle stages")
 
