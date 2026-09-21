@@ -17,6 +17,11 @@ main:
   - name: Community
     url: community/
     weight: 50
+  - name: Paper
+    url: "https://arxiv.org/abs/2608.16185"
+    weight: 55
+    params:
+      external: true
 
 sidebar:
   - identifier: more

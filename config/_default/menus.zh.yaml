@@ -16,6 +16,11 @@ main:
   - name: 社区
     url: community/
     weight: 50
+  - name: 论文
+    url: "https://arxiv.org/abs/2608.16185"
+    weight: 55
+    params:
+      external: true
 
 sidebar:
   - identifier: more

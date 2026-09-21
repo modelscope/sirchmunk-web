@@ -76,4 +76,7 @@ print(response.json())
 | `SIRCHMUNK_MAX_CONCURRENT_SEARCHES` | Max concurrent search tasks | `3` |
 
 > [!TIP]
+> The image tag `ubuntu22.04-py312-0.0.7` is the latest pre-built image at the time of writing. Check the [Alibaba Cloud Container Registry](https://cr.console.aliyun.com/) or the [Sirchmunk README](https://github.com/modelscope/sirchmunk#-docker-deployment) for the latest available tag.
+
+> [!TIP]
 > For full Docker parameters and advanced usage, see the [docker/README.md](https://github.com/modelscope/sirchmunk/blob/main/docker/README.md) in the Sirchmunk repository.

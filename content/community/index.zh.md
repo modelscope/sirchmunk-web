@@ -14,6 +14,10 @@ pager: false
 - 查看 [Sirchmunk 文档](/zh/docs/)
 - 阅读 [技术深度报告](/zh/blog/technical-deep-dive/)
 
+## 研究论文 {#paper}
+
+- [LENS 论文 (arXiv:2608.16185)](https://arxiv.org/abs/2608.16185) — *LENS：基于动态原始文档的隐式证据探索上下文搜索* — Sirchmunk 核心算法的研究论文。
+
 ## 源代码 {#source}
 
 - [Sirchmunk GitHub](https://github.com/modelscope/sirchmunk) — 给仓库点个 Star，关注开发进展

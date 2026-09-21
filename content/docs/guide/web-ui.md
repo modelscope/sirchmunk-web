@@ -66,6 +66,15 @@ Browse and manage knowledge clusters:
 - Track lifecycle states (Emerging → Stable → Deprecated)
 - Monitor hotness scores and query histories
 
+### Knowledge Graph
+
+Interactive visualization of knowledge clusters, their relationships and lifecycle states. Accessible from the sidebar navigation.
+
+- **Cluster network** — Cytoscape.js-powered graph showing semantic edges between clusters
+- **Lifecycle encoding** — Visual distinction of Emerging, Stable, and Deprecated states
+- **Leiden meta-clustering** — Higher-level community structure overlay
+- **Interactive exploration** — Click, zoom, and filter clusters in real-time
+
 ### Monitor — System Dashboard
 
 Real-time system health and usage metrics:
